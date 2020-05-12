@@ -1,0 +1,390 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Home</title>
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style_page.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/fontawesome.css" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Infoshare Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+    <script
+        type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <link href='http:///fonts.useso.com/css?family=Roboto:400,300,100,500,700,900' rel='stylesheet' type='text/css'>
+    <link href='http:///fonts.useso.com/css?family=Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
+    <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet"
+        href="https://fonticons-free-fonticons.netdna-ssl.com/kits/ffe176a3/publications/72113/woff2.css" media="all">
+    <script src="js/responsiveslides.min.js"></script>
+    <script src="js/all.js"></script>
+    <script>
+        // You can also use "$(window).load(function() {"
+        $(function () {
+            $("#slider").responsiveSlides({
+                auto: true,
+                manualControls: '#slider3-pager',
+            });
+            //討論區按鈕
+            $(".gossip_sort").before('<div class="gossip_cover gossip_close">');
+            $(".gossip_close").click(function () {
+                var $this = $(this);
+                $(".gossip_sort").toggleClass("active");
+                $("body").toggleClass("active");
+                $(".gossip_cover").toggleClass("active");
+            });
+            //登入按鈕
+            $(".sign_btn").click(function () {
+                var $this = $(this);
+                var login_box = $(".login_box");
+                login_box.toggleClass("active");
+            });
+        });
+    </script>
+</head>
+
+<body class="page article_in">
+    <div class="gossip_sort">
+        <span><i class="far fa-comments"></i>交流討論平台</span>
+        <ul>
+            <li><a href="" title="美術攝影">美術攝影</a></li>
+            <li><a href="" title="美術攝影">美術攝影</a></li>
+            <li><a href="" title="美術攝影">美術攝影</a></li>
+            <li><a href="" title="美術攝影">美術攝影</a></li>
+            <li><a href="" title="美術攝影">美術攝影</a></li>
+        </ul>
+    </div>
+    <!-- banner -->
+    <div class="header">
+        <div class="container">
+            <div class="header-left">
+                <div class="logo">
+                    <a href="index.html">
+                        <h1 title="線上交流平台×討論版">線上交流平台<span>×</span>討論版</h1>
+                    </a>
+                </div>
+                <div class="gossip_sort_button gossip_close">
+                    <span><i class="fas fa-align-left"></i>討論版</span>
+                </div>
+                <div class="person">
+                    <p>A personal blog about everything.</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="login">
+                    <a class="sign_btn" href="#"><i class="fas fa-user-circle"></i>登入</a><a href="#"><i
+                            class="fas fa-user-plus"></i>註冊</a>
+
+                    <div class="login_box">
+                        <form name="" action="" method="">
+                            <span class="login_title">使用者登入</span>
+                            <div><label for="username">帳號</label><input name="username" value=""></div>
+                            <div><label for="password">密碼</label><input name="password" value=""></div>
+                            <div class="sign_btn"><a class="for_pw" href="#">忘記密碼</a><button type="submit">登入</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="search-box">
+                    <div id="sb-search" class="sb-search">
+                        <form>
+                            <input class="sb-search-input" placeholder="Enter your search term..." type="search"
+                                name="search" id="search">
+                            <button class="sb-search-submit" type="submit" value="">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- search-scripts -->
+            <script src="js/classie.js"></script>
+            <script src="js/uisearch.js"></script>
+            <script>
+                new UISearch(document.getElementById('sb-search'));
+            </script>
+            <!-- //search-scripts -->
+
+            <!--<div class="clearfix"> </div>-->
+        </div>
+    </div>
+    <div class="header-bottom">
+        <div class="container">
+            <div class="head-nav">
+                <span class="menu"> </span>
+                <ul class="cl-effect-15">
+                    <li><a class="color2" href="index.html" data-hover="Cosplay">Cosplay</a></li>
+                    <li><a class="color1" href="cinema.html">Cinema</a></li>
+                    <li><a class="color3" href="analise.html">Análise</a></li>
+                    <li><a class="color4" href="games.html" data-hover="Games">Games</a></li>
+                    <li><a class="color6" href="animals.html" data-hover="Animals">Animals</a></li>
+                    <li><a class="color5" href="404.html" data-hover="Avisos">Avisos</a></li>
+                    <li><a class="color7" href="noticias.html" data-hover="Notícias">Notícias</a></li>
+                    <li><a class="color8" href="curiosidades.html" data-hover="Curiosidades">Curiosidades</a></li>
+                    <li><a class="color9" href="reviews.html" data-hover="Reviews">Reviews</a></li>
+                    <div class="clearfix"> </div>
+                </ul>
+                <!-- script-for-nav -->
+                <script>
+                    $("span.menu").click(function () {
+                        $(".head-nav ul").slideToggle(300, function () {
+                            // Animation complete.
+                        });
+                    });
+                </script>
+                <!-- script-for-nav -->
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+
+    <!-- banner -->
+    <div class="slider">
+        <!-- Slideshow 3 -->
+        <ul class="rslides" id="slider">
+            <li>
+                <img src="images/4.jpg" class="img-responsive" alt="">
+                <div class="caption">
+                    <a class="morebtn" href="#">Cosplay</a>
+                    <h1>Os 30 melhores cosplays do mundo</h1>
+                    <a class="cap" href="#"><i class="eye"> </i><span class="icon_text">1.389.571 views</span></a>
+                    <a class="cap" href="#"><i class="inter"> </i><span class="icon_text">255 comentários</span></a>
+                    <a class="cap" href="#"><i class="compart"> </i><span class="icon_text">980
+                            compartilhamentos</span></a>
+
+                </div>
+            </li>
+            <li>
+                <img src="images/2.jpg" class="img-responsive" alt="">
+                <div class="caption">
+                    <a class="morebtn" href="#">Cosplay</a>
+                    <h1>Os 30 melhores cosplays do mundo</h1>
+                    <a class="cap" href="#"><i class="eye"> </i><span class="icon_text">1.389.571 views</span></a>
+                    <a class="cap" href="#"><i class="inter"> </i><span class="icon_text">255 comentários</span></a>
+                    <a class="cap" href="#"><i class="compart"> </i><span class="icon_text">980
+                            compartilhamentos</span></a>
+                </div>
+            </li>
+            <li>
+                <img src="images/3.jpg" class="img-responsive" alt="">
+                <div class="caption">
+                    <a class="morebtn" href="#">Cosplay</a>
+                    <h1>Os 30 melhores cosplays do mundo</h1>
+                    <a class="cap" href="#"><i class="eye"> </i><span class="icon_text">1.389.571 views</span></a>
+                    <a class="cap" href="#"><i class="inter"> </i><span class="icon_text">255 comentários</span></a>
+                    <a class="cap" href="#"><i class="compart"> </i><span class="icon_text">980
+                            compartilhamentos</span></a>
+                </div>
+            </li>
+            <li>
+                <img src="images/1.jpg" class="img-responsive" alt="">
+                <div class="caption">
+                    <a class="morebtn" href="#">Cosplay</a>
+                    <h1>Os 30 melhores cosplays do mundo</h1>
+                    <a class="cap" href="#"><i class="eye"> </i><span class="icon_text">1.389.571 views</span></a>
+                    <a class="cap" href="#"><i class="inter"> </i><span class="icon_text">255 comentários</span></a>
+                    <a class="cap" href="#"><i class="compart"> </i><span class="icon_text">980
+                            compartilhamentos</span></a>
+                </div>
+            </li>
+        </ul>
+        <!-- Slideshow 3 Pager -->
+        <ul id="slider3-pager">
+            <li><a href="#"><img src="images/4_thumb.jpg" class="img-responsive" alt=""></a></li>
+            <li><a href="#"><img src="images/2_thumb.jpg" class="img-responsive" alt=""></a></li>
+            <li><a href="#"><img src="images/3_thumb.jpg" class="img-responsive" alt=""></a></li>
+            <li><a href="#"><img src="images/1_thumb.jpg" class="img-responsive" alt=""></a></li>
+        </ul>
+    </div>
+    <!-- banner -->
+    <!-- indica -->
+    <div class="indica">
+        <div class="container">
+            <div class="col-md-9 posta">
+                <div class="article_storey">
+                    <div class="author_box">
+                        <div class="head_img"><img src="images/author/img_h.jpeg" title="talkabc123的大頭照" /></div>
+                        <span class="auth_num">樓主</span>
+                        <a class="author" href="">talkabc123</a>
+                        <span>暱稱<font>Java專題</font></span>
+                        <span>性別<font>隱藏</font></span>
+                        <span>生日<font>隱藏</font></span>
+                    </div>
+                    <div class="article_box">
+                        <div class="info_box">
+
+                            <strong>Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</strong>
+                            <div>
+                                <span class="art_s"><a class="sort" href="">遊戲電玩</a></span>
+                                <span class="art_num">
+                                    <font>2020年05月11日</font>
+                                    <font><i class="far fa-comment"></i> 15</font>
+                                    <font>瀏覽人數 35</font>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="article_txt">
+                            <p>微軟 Xbox 強調活動會以全球開發合作夥伴的作品展示為主，除了三廠遊戲外，微軟自家開發的第一方遊戲作品將不會在 Inside Xbox 活動上公開。據 Xbox
+                                遊戲行銷部總經理 Aaron
+                                Greenberg 表示，Xbox遊戲工作室（Xbox Game Studios）的第一方作品有可能會在今年6月進一步公開，也就是說如《最後一戰：無限》（Halo
+                                Infinite）、《地獄之刃2：賽奴雅的傳奇》（Senua’s Saga: Hellblade 2）等新作都有機會亮相。</p>
+                            <p>微軟 Xbox 負責人 Phil Spencer
+                                日前透露，部分遊戲開發進度因受到武漢肺炎（COVID-19）疫情影響可能延後推出，畢竟遊戲製作人力龐大，也需要一起創意發想、互動討論，但防疫期間須採居家辦公以確保人員健康安全，同時也得兼顧資安保密問題，以致遊戲開發進度有所延遲。
+                            </p>
+                            <p>Phil Spencer 沒有說明受影響的是哪些自家作品或三廠遊戲，僅表示微軟會待一切準備就緒後才會推出成品。他也強調，儘管部分遊戲可能延期推出，但 Xbox Series X
+                                主機上市時程不會受到疫情影響，仍將如期推出上市。</p>
+                            <p>微軟日前公開 Xbox Series X 新機硬體規格，確定其核心架構採用 7 nm 製程的八核心 AMD Zen 2 處理器，時脈頻率可達 3.8
+                                GHz，同步多執行緒（SMT）下為 3.6
+                                GHz；搭載 12 TFlops 浮點運算能力的訂製版 AMD RDNA 2 GPU，配備 52 個 CU 運算單元，並升級至 16 GB GDDR6 記憶體、內建 1 TB
+                                NVMe SSD
+                                硬碟，加快遊戲讀取速度。另支援硬體加速光線追蹤，支援 4K 解析度 60 fps 至 120 fps
+                                高幀率，在視覺細節和遊戲體驗上更為提升，也令人更加期待遊戲在新機上執行運作時的表現，一切有待
+                                Inside Xbox 進一步揭曉。</p>
+                        </div>
+                        <div class="other_fun"><a title="跳轉至進階發文" href="">回覆</a></div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+                <!--回覆-->
+            </div>
+            <div class="col-md-3  redes">
+                <h3>最新 <strong>文章回覆</strong>
+                    <label3></label3>
+                </h3>
+                <div class="dicado-top">
+                    <h5>30 app para download</h5>
+                </div>
+                <div class="dicado-bottom">
+                    <div class="dicado-1">
+                        <h6><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h6>
+                        <span class="itac">最新回覆 : Paulo Ricardo<br /><i class="far fa-clock"></i> 3 天前<i
+                                class="dot_"></i><i class="far fa-comment"></i> 32</span>
+                    </div>
+                    <div class="dicado-1">
+                        <h6><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h6>
+                        <span class="itac">最新回覆 : Paulo Ricardo<br /><i class="far fa-clock"></i> 3 天前<i
+                                class="dot_"></i><i class="far fa-comment"></i> 32</span>
+                    </div>
+                    <div class="dicado-1">
+                        <h6><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h6>
+                        <span class="itac">最新回覆 : Paulo Ricardo<br /><i class="far fa-clock"></i> 3 天前<i
+                                class="dot_"></i><i class="far fa-comment"></i> 32</span>
+                    </div>
+                    <div class="dicado-1">
+                        <h6><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h6>
+                        <span class="itac">最新回覆 : Paulo Ricardo<br /><i class="far fa-clock"></i> 3 天前<i
+                                class="dot_"></i><i class="far fa-comment"></i> 32</span>
+                    </div>
+                    <div class="dicado-1">
+                        <h6><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h6>
+                        <span class="itac">最新回覆 : Paulo Ricardo<br /><i class="far fa-clock"></i> 3 天前<i
+                                class="dot_"></i><i class="far fa-comment"></i> 32</span>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!-- indica -->
+    <!-- last -->
+    <!-- last -->
+    <!-- vlog -->
+    <!-- vlog -->
+    <i class="line"> </i>
+    <!-- melhores -->
+    <div class="melhores">
+        <div class="container">
+            <li><i class="cup"> </i></li>
+            <li>
+                <h3>精選文章！</h3>
+            </li>
+            <li>
+                <p>快來看看大家最想知道的事情！</p>
+            </li>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- melhores -->
+    <!-- comopasser -->
+    <div class="comopasser">
+        <div class="container">
+            <div class="col-md-3 comopasser-top">
+                <a href="single.html"><img src="images/15.jpg" class="img-responsive" alt=""></a>
+                <a class="gos_btn gamsbtn" href="single.html">Games</a>
+                <div class="comopasser-bottom">
+                    <h3><a href="single.html">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h3>
+                    <p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
+                    <div class="curtir">
+                        <li>Paulo Ricardo</li>
+                        <li><a class="cap" href="#"><i class="fas fa-comment-dots"></i>253</a></li>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 comopasser-top">
+                <a href="single.html"><img src="images/15.jpg" class="img-responsive" alt=""></a>
+                <a class="gos_btn anasbtn" href="single.html">Games</a>
+                <div class="comopasser-bottom">
+                    <h3><a href="single.html">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h3>
+                    <p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
+                    <div class="curtir">
+                        <li>Paulo Ricardo</li>
+                        <li><a class="cap" href="#"><i class="fas fa-comment-dots"></i>253</a></li>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 comopasser-top">
+                <a href="single.html"><img src="images/15.jpg" class="img-responsive" alt=""></a>
+                <a class="gos_btn avisbtn" href="single.html">Games</a>
+                <div class="comopasser-bottom">
+                    <h3><a href="single.html">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h3>
+                    <p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
+                    <div class="curtir">
+                        <li>Paulo Ricardo</li>
+                        <li><a class="cap" href="#"><i class="fas fa-comment-dots"></i>253</a></li>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 comopasser-top">
+                <a href="single.html"><img src="images/15.jpg" class="img-responsive" alt=""></a>
+                <a class="gos_btn cinmsbtn" href="single.html">Games</a>
+                <div class="comopasser-bottom">
+                    <h3><a href="single.html">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h3>
+                    <p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
+                    <div class="curtir">
+                        <li>Paulo Ricardo</li>
+                        <li><a class="cap" href="#"><i class="fas fa-comment-dots"></i>253</a></li>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- comopasser -->
+    <!-- footer -->
+    <div class="footer">
+        <div class="container">
+            <p>本站所刊載之圖文內容等版權皆屬原作者所有，非經同意請勿轉載<br />Copyright &copy; 線上交流平台×討論版 All Rights Reserved.</p>
+            <!--<div class="social">
+				<ul>
+					<li><a href="#"><i class="facebk1"> </i></a></li>
+					<li><a href="#"><i class="twiter1"> </i></a></li>
+					<li><a href="#"><i class="rss"> </i></a></li>
+					<li><a href="#"><i class="gopl"> </i></a></li>
+					<li><a href="#"><i class="flik"> </i></a></li>
+					<li><a href="#"><i class="drible"> </i></a></li>
+					<li><a href="#"><i class="in"> </i></a></li>
+					<li><a href="#"><i class="pp1"> </i></a></li>
+					<div class="clearfix"></div>
+				</ul>
+			</div>-->
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <!-- footer -->
+</body>
+
+</html>
