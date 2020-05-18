@@ -1,5 +1,3 @@
-CREATE database if not exists gossipboard CHARACTER SET utf8 collate utf8_general_ci;
-USE gossipboard;
 CREATE TABLE if not exists article(
 	arti_id int(10) NOT NULL auto_increment primary key,
 	title character(100) NOT NULL,
@@ -19,7 +17,7 @@ CREATE TABLE if not exists article_reply(
     arti_id int(10) NOT NULL,
     user_id char(10) NOT NULL
     ) character set = utf8 collate = utf8_general_ci ;
-
+    
 CREATE TABLE if not exists user(
   `account_ID` INT NOT NULL AUTO_INCREMENT,
   `account` VARCHAR(45) NOT NULL,
@@ -33,7 +31,7 @@ CREATE TABLE if not exists user(
   UNIQUE INDEX `account_UNIQUE` (`account` ASC) VISIBLE,
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;    
+DEFAULT CHARACTER SET = utf8 collate = utf8_general_ci ;
 
 CREATE TABLE  if not exists board(
   `board_ID` INT NOT NULL AUTO_INCREMENT,
@@ -41,4 +39,4 @@ CREATE TABLE  if not exists board(
   PRIMARY KEY (`board_ID`),
   UNIQUE INDEX `board_name_UNIQUE` (`board_name` ASC) VISIBLE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8 collate = utf8_general_ci ;
