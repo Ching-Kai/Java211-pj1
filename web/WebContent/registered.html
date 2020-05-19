@@ -4,8 +4,26 @@
 <meta charset="UTF-8">
 <!--link rel="stylesheet" href="css/gossip.css" type="text/css"-->
 <style>
+table {
+	cellspacing="10";
+	border: 2px solid black;
+}
+
+th, td {
+	text-align: center;
+	margin: 10px;
+	padding: 2px;
+	border: 1px solid gray;
+}
+
 tr {
 	height: 60px;
+}
+
+div {
+	width: 500px;
+	padding: 30px;
+	margin: 20px auto;
 }
 </style>
 
@@ -45,9 +63,10 @@ tr {
 <title>會員申請</title>
 </head>
 <body>
-	<div >
+	<div>
 		<h1>會員申請</h1>
-		<form name="useraddform" method='post' action='useradd.jsp'  style=margin: 0 auto>
+		<form name="useraddform" method='post' action='useradd.jsp'
+			style=margin: 0 auto>
 			<table>
 				<tr>
 					<td>信箱：</td>
