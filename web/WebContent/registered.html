@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!--link rel="stylesheet" href="css/gossip.css" type="text/css"-->
+<style>
+tr {
+	height: 60px;
+}
+</style>
+
+<script language="JavaScript">
+	var account = document.useraddform.account.value;
+	var passwd = document.useraddform.password.value;
+	var username = document.useraddform.username.value;
+	var gender = document.useraddform.gender.value;
+	var email = document.useraddform.email.value;
+	function check_Data() {
+		account = document.useraddform.account.value;
+		password = document.useraddform.password.value;
+		username = document.useraddform.username.value;
+		gender = document.useraddform.gender.value;
+		email = document.useraddform.email.value;
+		var re1 = /^[a-z|A-Z]\w{7,15}$/;
+		var re2 = /^[a-z|A-Z|\w]{7,15}$/;
+		var re3 = /.?/;
+		var re4 = /^.+@[a-z]+\.[a-z]+(\.[a-z]+)?$/;
+		if (!re1.test(account)) {
+			alert("帳號格式錯誤");
+			return false;
+		} else if (!re2.test(passwd)) {
+			alert("密碼格式錯誤");
+			return false;
+		} else if (!re3.test(username)) {
+			alert("請輸入姓名");
+			return false;
+		} else if (!re4.test(email)) {
+			alert("email格式錯誤");
+			return false;
+		} else {
+			return true;
+		}
+	}
+</script>
+<title>會員申請</title>
+</head>
+<body>
+	<div >
+		<h1>會員申請</h1>
+		<form name="useraddform" method='post' action='useradd.jsp'  style=margin: 0 auto>
+			<table>
+				<tr>
+					<td>信箱：</td>
+					<td><input type='text' name='email' size='25' maxlength='100'></td>
+				</tr>
+				<tr>
+					<td>帳號（8 到 16 字元,首字必須英文）：</td>
+					<td><input type='text' name='account' size='25' maxlength='16'></td>
+				</tr>
+				<tr>
+					<td>密碼（8 到 16 字元,首字必須英文）：</td>
+					<td><input type='password' name='password' size='25'
+						maxlength='16'></td>
+				</tr>
+				<tr>
+					<td>姓名：</td>
+					<td><input type='text' name='username' size='25'
+						maxlength='100'></td>
+				</tr>
+
+				<tr>
+					<td>生日：</td>
+					<td><input type='date' name='birthday' size='25'
+						maxlength='100'></td>
+				</tr>
+
+				<tr>
+					<td>性別：</td>
+					<td><input type='radio' name='gender' value="male">男 <input
+						type='radio' name='gender' value="female">女</td>
+				</tr>
+
+				<tr>
+					<td colspan='2' align='center'><input type='submit' value='註冊'
+						onclick="return check_Data()"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</body>
+</html>
