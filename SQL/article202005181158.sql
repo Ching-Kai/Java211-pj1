@@ -1,6 +1,6 @@
 SELECT * FROM gossipboard.article;
 insert into article(title, arti_txt, view_num, board_id, user_id, arti_update) 
-	values("《樂高旋風忍者 電影》即日起至 5 月 22 日開放限時免費下載 領取後將可永久保留",
+	values("2《樂高旋風忍者 電影》即日起至 5 月 22 日開放限時免費下載 領取後將可永久保留",
 			"TT Games 宣布",
             "1",
             "5",

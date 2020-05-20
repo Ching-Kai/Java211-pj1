@@ -16,12 +16,24 @@
 <link rel="stylesheet"
 	href="https://fonticons-free-fonticons.netdna-ssl.com/kits/ffe176a3/publications/72113/woff2.css"
 	media="all">
+	<script>
+	function msg(txt, path){
+		alert(txt);
+		//預設
+		var default_path = 'edit.jsp?act=select';
+		if(path == null){
+			location.href=default_path;
+		}else{
+			location.href=path;
+		}
+	};		
+	</script>
 </head>
 <body>
 	<%
 		Connection_sql conn = new Connection_sql();
 		conn.connection();
-		final Connection con = conn.con;
+		Connection con = conn.con;
 		Statement stm = conn.stm;
 		ResultSet result = conn.result;
 		String act = "";
@@ -92,75 +104,191 @@
 
 			</div>
 			<div class="ri_edit">
-				<form>
-					<%
-						if (true) {
+			<%
+						//目前動作
+						act = request.getParameter("act");
+						//out.println(act);
+						if(act == null) 
+							act="select";
+						if (act.equals("select")) {
 							try {
-								result = stm.executeQuery("select count(*) from article");
+								result = stm.executeQuery("select * from article");
 							} catch (Exception e) {
 								e.printStackTrace();
 								System.out.println("查詢發生錯誤!");
 							}
-							int register_count = 0;
-							if (true) {
-								result = stm.executeQuery("select * from article");
-								String line = "";
-								line += "<ul>";
-								while (result.next()) {
-									String arti_id = result.getString("arti_id");
-									String title = result.getString("title");
-									String arti_date = result.getString("arti_date");
-									String arti_txt = result.getString("arti_txt");
-									line = "<li><a href='edit.jsp?act=update&arti_id=" + arti_id + "'>" + title + "</a>";
-									line += "<form method='get' action='edit.jsp'><button type='submit' value='edit'>修改</button>";
-									line += "<button type='submit' value='delete'>刪除</button>";
-									line += "<input type='hidden' value='" + arti_id + "'></form></li>";	
-								}
-								line += "</ul>";
-								out.println(line);
-					%>
-					<%
-						result.close();
-								stm.close();
-								con.close();
+							String line = "";
+							String arti_id = "";
+							String title = "";
+							String arti_date = "";
+							String arti_txt = "";
+							%>
+							
+							<h1>文章總攬</h1>
+							<form action="edit.jsp" method="get">
+								<button type='submit' name='act' value='add'>新增</button>
+							</form>
+							<ul>
+							<%
+							while (result.next()) {
+								arti_id = result.getString("arti_id");
+								title = result.getString("title");
+								arti_date = result.getString("arti_date");
+								arti_txt = result.getString("arti_txt");
+								%>
+								<li><a href='edit.jsp?act=update&arti_id=<%=arti_id %>'><%=title %></a>
+								<form method='get' action='edit.jsp'>
+								<button type='submit' name='act' value='update'>修改</button>
+								<button type='submit' name='act' value='delete'>刪除</button>
+								<input type='hidden' name='arti_id' value='<%=arti_id %>'></form></li>
+								<%
 							}
+							%>
+							</ul>
+							<%
+							result.close();
+							stm.close();
+							con.close();
+						}
+						if (act.equals("add")) {
+							
+							%>
+							<h1>新增資料</h1>
+							<form method='get' action='edit.jsp'>					
+								<div><label for=''>文章標題：</label><input type='text' name='title' value=''></div>
+								
+								<div><label for=''>文章內文：</label><textarea type='text' name='arti_txt'></textarea></div>
+								<div><label for=''>討論版分類：</label><select name='board_id'>
+							<%
+							//討論版選擇
+							result = stm.executeQuery("select * from board");
+							String line="";
+							while (result.next()) {
+								String board_ido = result.getString("board_id");
+								String board_name = result.getString("board_name");
+								line += "<option value='" + board_ido + "'>" + board_name + "</option>";
+							}
+							out.println(line);
+							%>
+							</select></div>
+								<button type="submit" value="add_data">確定新增</button>
+								<button type="submit" value="select">取消</button>
+								<input type="hidden" name="act" value="add_data">
+								<!-- 管理者user_id -->
+								<input type="hidden" name="user_id" value="1">
+							</form>
+							<%
+							result.close();
+						}
+						if (act.equals("add_data")){
+							
+							String user_id = request.getParameter("user_id");
+							String title = request.getParameter("title");
+							String arti_update = "current_timestamp";
+							String board_id = request.getParameter("board_id");
+							String arti_txt = request.getParameter("arti_txt");
+							
+							String sql = "insert into article (title, arti_txt, board_id, user_id, arti_update) values('"+title+"','"+arti_txt+"','"+board_id+"','"+user_id+"', "+arti_update+")";
+							PreparedStatement stm1 = con.prepareStatement(sql);
+							stm1.executeUpdate();
+							con.close();							
+
+// 							String sql = "insert into article (title, arti_txt, view_num, board_id, user_id, arti_update) values('3《樂高旋風忍者 電影》即日起至 5 月 22 日開放限時免費下載 領取後將可永久保留','TT Games 宣布','1','5','20',current_timestamp)";
+// 							PreparedStatement stm1 = con.prepareStatement(sql);
+// 							stm1.executeUpdate();
+// 							con.close();
+							 %>
+							 <script>msg('新增成功!!', null);</script>
+							 <%
+							
 						}
 
-						if (act == "update") {
-							if (true) {
-								result = stm.executeQuery("select * from article where arti_id=3");
-								while (result.next()) {
-									String title = result.getString("title");
-									String arti_date = result.getString("arti_date");
-									String arti_txt = result.getString("arti_txt");
-									String line = "<div><label>標題</label>";
-									line += "<input type='text' name='title' value='" + title + "'></div>";
-									line += "<div><label>發文日期</label>" + arti_date + "</div>";
-									line += "<div><label>內文</label><input type='text' name='content' value='" + arti_txt
-											+ "'></div>";
-									out.println(line);
-								}
-					%>
-					<button type="submit">送出</button>
-					<input type="hidden" value="select">
-					<%
-						result.close();
-								stm.close();
-								con.close();
-							}
+						if (act.equals("update") && request.getParameter("arti_id") != null) {
+							String line = "";
+							String arti_id = request.getParameter("arti_id");
+							//String arti_id = "1";
+							String title = "";
+							String arti_date = "";
+							String arti_txt = "";
+							String board_id = "";
+							result = stm.executeQuery("select * from article where arti_id = '" + arti_id + "'");
 
-							//update
+							Statement stm2 = con.createStatement();
+							ResultSet result2 = conn.result;
+							result2 = stm2.executeQuery("select * from board");
+							while (result.next()) {
+								title = result.getString("title");
+								arti_date = result.getString("arti_date");
+								board_id = result.getString("board_id");
+								arti_txt = result.getString("arti_txt");									
+								%>
+								<h1>更新資料</h1>
+								<form method='get' action='edit.jsp'>
+								<div><label for=''>文章標題：</label><input type='text' name='title' value='<%=title%>'></div>
+								<div><label for=''>發文日期：</label><%=arti_date %></div>
+								<div><label for=''>文章內文：</label><textarea type='text' name='arti_txt'><%=arti_txt%></textarea></div>
+								<div><label for=''>討論版類別：</label><select name='board_id'>
+										
+								<%
+								//討論版選擇
+								while (result2.next()) {
+									String board_ido = result2.getString("board_id");
+									String board_name = result2.getString("board_name");
+									line += "<option value='" + board_ido + "' ";
+									//預設當前討論版
+									if (board_id.equals(board_ido)) {
+										line += "selected";
+									}
+									line += ">" + board_name + "</option>";
+								}
+								result2.close();
+								out.println(line);
+							}
+							%>
+							</select></div>
+							<button type='submit' name='act' value='edit'>確定修改</button>
+							<button type='submit' name='act' value='select'>取消</button>
+							<input type='hidden' name='arti_id' value='<%=arti_id %>'>
+							</form>
+							
+							<% 
+
+							result.close();
+						}
+						if (act.equals("edit") && request.getParameter("arti_id") != null) {
 							try {
-								String sql = "update article set title = '0519《樂高旋風忍者 電影》' where arti_id=3";
+								String arti_id = request.getParameter("arti_id");
+								String title = request.getParameter("title");
+								String arti_txt = request.getParameter("arti_txt");
+								String board_id = request.getParameter("board_id");
+								String sql = "update article set title = '" + title + "', ";
+								sql += "arti_txt = '" + arti_txt + "', board_id = '" + board_id + "' where arti_id=" + arti_id;
 								PreparedStatement stm1 = con.prepareStatement(sql);
 								stm1.executeUpdate();
+								stm.close();
 								con.close();
+								 %>
+								 <script>msg('更新成功!!', null);</script>
+								 <%
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+						if (act.equals("delete") && request.getParameter("arti_id") != null) {
+							try {
+								String arti_id = request.getParameter("arti_id");
+								String sql = "delete from article where arti_id="+arti_id;
+								PreparedStatement stm1 = conn.con.prepareStatement(sql);
+								stm1.executeUpdate();
+								con.close();
+								 %>
+								 <script>msg('刪除成功!!', null);</script>
+								 <%
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
 					%>
-				</form>
 			</div>
 		</div>
 	</section>
