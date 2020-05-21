@@ -1,6 +1,7 @@
 package article;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,16 +32,29 @@ public class ArticleDelete extends HttpServlet {
 		conn.connection();
 		Connection con = conn.con;
 		ResultSet result = conn.result;
-		
-		
-		String arti_id = request.getParameter("arti_id");
-		String sql = "delete from article where arti_id="+arti_id;
-		try {
-			PreparedStatement stm1 = conn.con.prepareStatement(sql);
-			stm1.executeUpdate();
-			con.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+		String act_s = request.getParameter("act_s");
+		PrintWriter out = response.getWriter();
+		if(act_s.equals("article")) {
+			String arti_id = request.getParameter("arti_id");
+			String sql = "delete from article where arti_id="+arti_id;
+			try {
+				PreparedStatement stm1 = conn.con.prepareStatement(sql);
+				stm1.executeUpdate();
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}			
+		}
+		if(act_s.equals("article_reply")) {
+			String reply_id = request.getParameter("reply_id");
+			String sql = "delete from article_reply where reply_id="+reply_id;
+			try {
+				PreparedStatement stm1 = conn.con.prepareStatement(sql);
+				stm1.executeUpdate();
+				con.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

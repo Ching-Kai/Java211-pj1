@@ -18,7 +18,7 @@ public class Connection_sql {
 			// TODO Auto-generated catch block
 			System.out.println("驅動程式失敗!");
 		}
-		String url = "jdbc:mysql://localhost:8888/gossip_board?serverTimezone=UTC";
+		String url = "jdbc:mysql://localhost:8888/gossipboard?serverTimezone=UTC";
 		try {
 			con = DriverManager.getConnection(url, "root", "1234");
 		} catch (SQLException e) {

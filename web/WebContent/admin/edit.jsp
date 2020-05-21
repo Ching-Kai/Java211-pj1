@@ -27,21 +27,22 @@
 			location.href=path;
 		}
 	};		
-	function cofirm_mes(mes, act, article_id){
-		if(confirm(mes)){
-			location.href="edit.jsp?act="+act+"&arti_id="+article_id;
+	function cofirm_mes(mes, href){
+		var str = href;
+		if(mes != null){
+			if(confirm(mes)){
+				location.href=str;
+			}
+		}else{
+			location.href=str;
 		}
 	};
 	
 	//送該表單
-	function cofirm_mesf(myform, mes, act, article_id){
+	function cofirm_mesf(myform, mes, article_id){
 		var form = document.getElementById(myform);
-		alert(article_id);
-		if(mes != ""){
-			if(confirm(mes)){
-				alert(55);
-				form.submit();
-			}
+		if(confirm(mes)){
+			form.submit();
 		}
 	};
 	</script>
@@ -54,7 +55,20 @@
 		Statement stm = conn.stm;
 		ResultSet result = conn.result;
 		String act = "";
-
+		
+		//後臺權限
+		String auth="100";
+		String auth_math="100";
+		if(auth != auth_math){
+			%>
+			<script>
+				alert("權限錯誤!");
+				location.href='https://www.google.com/';
+			</script>
+			<%
+			//response.sendRedirect("https://www.google.com/");
+		}
+		
 		// 		//delete
 		// 		try {
 		// 			String sql = "delete from article where arti_id=2";
@@ -116,7 +130,7 @@
 				<ul>
 					<li><a href="#">會員管理</a></li>
 					<li><a href="#">討論版管理</a></li>
-					<li><a href="">文章管理</a></li>
+					<li><a href="edit.jsp">文章管理</a></li>
 				</ul>
 
 			</div>
@@ -165,7 +179,8 @@
 								<li><a href='edit.jsp?act=edit&arti_id=<%=arti_id %>'><%=title %></a>								
 								<form id="myform" name="myform" method='get' action='edit.jsp'>
 								<button type='submit' name='act' value='edit'>修改</button>
-								<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'delete', '<%=arti_id %>')">刪除</button>
+								<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete&arti_id=<%=arti_id %>&act_s=article')">刪除</button>
+								<button type='submit' name='act' value='reply'>查看回覆</button>
 								<input type='hidden' name='arti_id' value='<%=arti_id %>'></form></li>
 								<%
 							}
@@ -180,7 +195,7 @@
 							
 							%>
 							<h1>新增資料</h1>
-							<form method='get' action='edit.jsp'>					
+							<form name="myfome" id="myfome" method='get' action='edit.jsp'>					
 								<div><label for='title'>文章標題：</label><input type='text' name='title' value=''></div>								
 								<div><label for='arti_txt'>文章內文：</label><textarea type='text' name='arti_txt'></textarea></div>
 								<div><label for='board_id'>討論版分類：</label><select name='board_id'>
@@ -197,8 +212,9 @@
 							result.close();
 							%>
 							</select></div>
-								<button type="submit" name="act"  value="add_data">確定新增</button>
-								<button type="submit" name="act"  value="select">取消</button>
+								<button type='button' onclick="cofirm_mesf('myfome', '確定要新增嗎?')">確定修改</button>
+								<button type='button' name='act' value='select' onclick="cofirm_mes(null, 'edit.jsp?act=select')">取消</button>
+								<input type='hidden' name='act' value='add_data'>		
 								<!-- 管理者user_id -->
 								<input type="hidden" name="user_id" value="1">
 							</form>
@@ -234,7 +250,7 @@
 								arti_txt = result.getString("arti_txt");									
 								%>
 								<h1>更新資料</h1>
-								<form name="myfome" method='get' action='edit.jsp'>
+								<form name="myfome" id="myfome" method='get' action='edit.jsp'>
 								<div><label for=title''>文章標題：</label><input type='text' name='title' value='<%=title%>'></div>
 								<div><label for=''>發文日期：</label><%=arti_date %></div>
 								<div><label for='arti_txt'>文章內文：</label><textarea type='text' name='arti_txt'><%=arti_txt%></textarea></div>
@@ -258,10 +274,11 @@
 							result.close();
 							%>
 							</select></div>
-							<button type='button' name='act' value='update' onclick="cofirm_mesf('myfome', '確定要修改嗎?', 'update', '<%=arti_id %>')">確定修改</button>
+							<button type='button' onclick="cofirm_mesf('myfome', '確定要修改嗎?')">確定修改</button>
 							
-							<button type='button' name='act' value='select' onclick="cofirm_mes('確定要修改嗎?', 'select', '<%=arti_id %>')">取消</button>
+							<button type='button' name='act' value='select' onclick="cofirm_mes(null, 'edit.jsp?act=select')">取消</button>
 							<input type='hidden' name='arti_id' value='<%=arti_id %>'>
+							<input type='hidden' name='act' value='update'>
 							</form>
 							
 							<% 
@@ -274,15 +291,69 @@
 							 <script>msg('更新成功!!', null);</script>
 							 <%
 						}
-						if (act.equals("delete") && request.getParameter("arti_id") != null) {
-							
+						if (act.equals("delete")) {
 							RequestDispatcher dispatcher=request.getRequestDispatcher("/ArticleDelete");
 							dispatcher.include(request, response);
 							 %>
 							 	<script>msg('刪除成功!!', null);</script>
 							 <%
 						}
+						if (act.equals("reply") && request.getParameter("arti_id") != null) {
+
+							String arti_id = request.getParameter("arti_id");
+							Statement stm2 = con.createStatement();
+							ResultSet result2 = conn.result;
+							try {
+								result = stm.executeQuery("select distinct a.reply_id, a.reply_txt, a.reply_date, a.user_id, u.username from article_reply as a inner join user as u where a.arti_id="+arti_id);
+								result2 = stm2.executeQuery("select title from article where arti_id="+arti_id);
+							} catch (Exception e) {
+								e.printStackTrace();
+								System.out.println("查詢發生錯誤!");
+							}
+							String reply_id = "";
+							String reply_txt = "";
+							String reply_date = "";
+							String user_id = "";
+							String username = "";
+
+							while(result2.next()) {
+							%>							
+								<h1>回覆總攬</h1>
+								<strong><%=result2.getString("title") %></strong>
+								<div>
+							<%
+							}
+							int i = 0;
+							while (result.next()) {
+								reply_id = result.getString("reply_id");
+								reply_date = result.getString("reply_date");
+								reply_txt = result.getString("reply_txt");
+								user_id = result.getString("user_id");
+								username = result.getString("username");
+								i++;
+								%>
+								<div><span>(<%=i %>樓)回覆者:</span><span class="username"><%=username %></span></div>
+								<div><span>回覆時間:</span><span><%=reply_date %></span></div>
+								<div><span>回覆內容:</span><span><%=reply_txt %></span></div>	
+								<div><span>回覆id:</span><span><%=reply_id %></span></div>	
+								
+															
+								<form id="myform" name="myform" method='get' action='edit.jsp'>
+									<button type='submit' name='act' value='edit'>修改</button>
+									<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete&reply_id=<%=reply_id %>&act_s=article_reply')">刪除</button>
+									<button type='submit' name='act' value='reply'>查看回覆</button>
+									<input type='hidden' name='arti_id' value='<%=arti_id %>'>
+								</form>
+								<%
+							}
+							result2.close();
+							result.close();
+							stm2.close();
+							stm.close();
+							con.close();
+						}
 					%>
+					</div>
 			</div>
 		</div>
 	</section>
