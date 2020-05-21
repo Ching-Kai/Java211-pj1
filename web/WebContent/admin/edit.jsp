@@ -20,13 +20,30 @@
 	function msg(txt, path){
 		alert(txt);
 		//預設
-		var default_path = 'edit.jsp?act=select';
+		var default_path = 'edit.jsp';
 		if(path == null){
 			location.href=default_path;
 		}else{
 			location.href=path;
 		}
 	};		
+	function cofirm_mes(mes, act, article_id){
+		if(confirm(mes)){
+			location.href="edit.jsp?act="+act+"&arti_id="+article_id;
+		}
+	};
+	
+	//送該表單
+	function cofirm_mesf(myform, mes, act, article_id){
+		var form = document.getElementById(myform);
+		alert(article_id);
+		if(mes != ""){
+			if(confirm(mes)){
+				alert(55);
+				form.submit();
+			}
+		}
+	};
 	</script>
 </head>
 <body>
@@ -105,11 +122,20 @@
 			</div>
 			<div class="ri_edit">
 			<%
-						//目前動作
-						act = request.getParameter("act");
-						//out.println(act);
-						if(act == null) 
-							act="select";
+						//目前動作頁面						
+						act = (String)request.getAttribute("act");
+						String get_act= request.getParameter("act");
+						out.println(act);	
+						out.println(get_act);	
+						//暫且無法使用Attribute傳值，使用GET
+						if(act == null && get_act == null) {
+							//預設頁面
+							request.setAttribute("act", "select");
+							act = (String)request.getAttribute("act");
+						}else if(get_act != "") {
+							act = get_act;
+						}
+						
 						if (act.equals("select")) {
 							try {
 								result = stm.executeQuery("select * from article");
@@ -136,10 +162,10 @@
 								arti_date = result.getString("arti_date");
 								arti_txt = result.getString("arti_txt");
 								%>
-								<li><a href='edit.jsp?act=update&arti_id=<%=arti_id %>'><%=title %></a>
-								<form method='get' action='edit.jsp'>
-								<button type='submit' name='act' value='update'>修改</button>
-								<button type='submit' name='act' value='delete'>刪除</button>
+								<li><a href='edit.jsp?act=edit&arti_id=<%=arti_id %>'><%=title %></a>								
+								<form id="myform" name="myform" method='get' action='edit.jsp'>
+								<button type='submit' name='act' value='edit'>修改</button>
+								<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'delete', '<%=arti_id %>')">刪除</button>
 								<input type='hidden' name='arti_id' value='<%=arti_id %>'></form></li>
 								<%
 							}
@@ -155,10 +181,9 @@
 							%>
 							<h1>新增資料</h1>
 							<form method='get' action='edit.jsp'>					
-								<div><label for=''>文章標題：</label><input type='text' name='title' value=''></div>
-								
-								<div><label for=''>文章內文：</label><textarea type='text' name='arti_txt'></textarea></div>
-								<div><label for=''>討論版分類：</label><select name='board_id'>
+								<div><label for='title'>文章標題：</label><input type='text' name='title' value=''></div>								
+								<div><label for='arti_txt'>文章內文：</label><textarea type='text' name='arti_txt'></textarea></div>
+								<div><label for='board_id'>討論版分類：</label><select name='board_id'>
 							<%
 							//討論版選擇
 							result = stm.executeQuery("select * from board");
@@ -169,41 +194,27 @@
 								line += "<option value='" + board_ido + "'>" + board_name + "</option>";
 							}
 							out.println(line);
+							result.close();
 							%>
 							</select></div>
-								<button type="submit" value="add_data">確定新增</button>
-								<button type="submit" value="select">取消</button>
-								<input type="hidden" name="act" value="add_data">
+								<button type="submit" name="act"  value="add_data">確定新增</button>
+								<button type="submit" name="act"  value="select">取消</button>
 								<!-- 管理者user_id -->
 								<input type="hidden" name="user_id" value="1">
 							</form>
-							<%
-							result.close();
+							<%							
 						}
 						if (act.equals("add_data")){
 							
-							String user_id = request.getParameter("user_id");
-							String title = request.getParameter("title");
-							String arti_update = "current_timestamp";
-							String board_id = request.getParameter("board_id");
-							String arti_txt = request.getParameter("arti_txt");
-							
-							String sql = "insert into article (title, arti_txt, board_id, user_id, arti_update) values('"+title+"','"+arti_txt+"','"+board_id+"','"+user_id+"', "+arti_update+")";
-							PreparedStatement stm1 = con.prepareStatement(sql);
-							stm1.executeUpdate();
-							con.close();							
-
-// 							String sql = "insert into article (title, arti_txt, view_num, board_id, user_id, arti_update) values('3《樂高旋風忍者 電影》即日起至 5 月 22 日開放限時免費下載 領取後將可永久保留','TT Games 宣布','1','5','20',current_timestamp)";
-// 							PreparedStatement stm1 = con.prepareStatement(sql);
-// 							stm1.executeUpdate();
-// 							con.close();
+							RequestDispatcher dispatcher=request.getRequestDispatcher("/ArticleAddData");
+							dispatcher.include(request, response);
 							 %>
 							 <script>msg('新增成功!!', null);</script>
 							 <%
 							
 						}
 
-						if (act.equals("update") && request.getParameter("arti_id") != null) {
+						if (act.equals("edit") && request.getParameter("arti_id") != null) {
 							String line = "";
 							String arti_id = request.getParameter("arti_id");
 							//String arti_id = "1";
@@ -223,11 +234,11 @@
 								arti_txt = result.getString("arti_txt");									
 								%>
 								<h1>更新資料</h1>
-								<form method='get' action='edit.jsp'>
-								<div><label for=''>文章標題：</label><input type='text' name='title' value='<%=title%>'></div>
+								<form name="myfome" method='get' action='edit.jsp'>
+								<div><label for=title''>文章標題：</label><input type='text' name='title' value='<%=title%>'></div>
 								<div><label for=''>發文日期：</label><%=arti_date %></div>
-								<div><label for=''>文章內文：</label><textarea type='text' name='arti_txt'><%=arti_txt%></textarea></div>
-								<div><label for=''>討論版類別：</label><select name='board_id'>
+								<div><label for='arti_txt'>文章內文：</label><textarea type='text' name='arti_txt'><%=arti_txt%></textarea></div>
+								<div><label for='board_id'>討論版類別：</label><select name='board_id'>
 										
 								<%
 								//討論版選擇
@@ -244,49 +255,32 @@
 								result2.close();
 								out.println(line);
 							}
+							result.close();
 							%>
 							</select></div>
-							<button type='submit' name='act' value='edit'>確定修改</button>
-							<button type='submit' name='act' value='select'>取消</button>
+							<button type='button' name='act' value='update' onclick="cofirm_mesf('myfome', '確定要修改嗎?', 'update', '<%=arti_id %>')">確定修改</button>
+							
+							<button type='button' name='act' value='select' onclick="cofirm_mes('確定要修改嗎?', 'select', '<%=arti_id %>')">取消</button>
 							<input type='hidden' name='arti_id' value='<%=arti_id %>'>
 							</form>
 							
 							<% 
-
-							result.close();
 						}
-						if (act.equals("edit") && request.getParameter("arti_id") != null) {
-							try {
-								String arti_id = request.getParameter("arti_id");
-								String title = request.getParameter("title");
-								String arti_txt = request.getParameter("arti_txt");
-								String board_id = request.getParameter("board_id");
-								String sql = "update article set title = '" + title + "', ";
-								sql += "arti_txt = '" + arti_txt + "', board_id = '" + board_id + "' where arti_id=" + arti_id;
-								PreparedStatement stm1 = con.prepareStatement(sql);
-								stm1.executeUpdate();
-								stm.close();
-								con.close();
-								 %>
-								 <script>msg('更新成功!!', null);</script>
-								 <%
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+						if (act.equals("update") && request.getParameter("arti_id") != null) {
+
+							RequestDispatcher dispatcher=request.getRequestDispatcher("/ArticleUpdate");
+							dispatcher.include(request, response);
+							 %>
+							 <script>msg('更新成功!!', null);</script>
+							 <%
 						}
 						if (act.equals("delete") && request.getParameter("arti_id") != null) {
-							try {
-								String arti_id = request.getParameter("arti_id");
-								String sql = "delete from article where arti_id="+arti_id;
-								PreparedStatement stm1 = conn.con.prepareStatement(sql);
-								stm1.executeUpdate();
-								con.close();
-								 %>
-								 <script>msg('刪除成功!!', null);</script>
-								 <%
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							
+							RequestDispatcher dispatcher=request.getRequestDispatcher("/ArticleDelete");
+							dispatcher.include(request, response);
+							 %>
+							 	<script>msg('刪除成功!!', null);</script>
+							 <%
 						}
 					%>
 			</div>
