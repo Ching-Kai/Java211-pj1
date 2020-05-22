@@ -47,7 +47,7 @@
 							<span class="login_title">使用者登入</span>
 							<div><label for="account">帳號</label><input name="account" value=""></div>
 							<div><label for="password">密碼</label><input name="password" value=""></div>
-							<div class="sign_btn"><a class="for_pw" href="#">忘記密碼</a><button type="submit">登入</button></div>
+							<div class="sign_btn"><a class="for_pw" href="Forgot.jsp#">忘記密碼</a><button type="submit">登入</button></div>
 						</form>
 					</div>
 				</div>

@@ -10,6 +10,7 @@
 
 </head>
 <body>
+
 <jsp:include page="header.jsp" /><!--頁頭-->>
 
 <h1>中間內文</h1>
