@@ -51,12 +51,17 @@
 						</form>
 					</div>
 				</div>
- <%}else {
+				
+				
+ <%}else {%>
+
+ <div style="background-color:#FFD382;border-radius:5px;display:inline;">
+ <% 
 	 out.print(session.getAttribute("username"));	
 	 session.getAttribute("account_ID");	
  %>
- 		-------已登入
- 		<div class="login">
+ 		---已登入</div>
+ 		<div style="display:inline; float:right"class="login">
 		<a href="logout.jsp"><i class="fas fa-user-plus"></i>登出</a>
 		</div>		
  <%}%>
