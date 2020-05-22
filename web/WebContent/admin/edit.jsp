@@ -17,6 +17,7 @@
 	href="https://fonticons-free-fonticons.netdna-ssl.com/kits/ffe176a3/publications/72113/woff2.css"
 	media="all">
 	<script>
+	//跳出訊息+轉址
 	function msg(txt, path){
 		alert(txt);
 		//預設
@@ -26,7 +27,9 @@
 		}else{
 			location.href=path;
 		}
-	};		
+	};
+	
+	//詢問訊息+轉址
 	function cofirm_mes(mes, href){
 		var str = href;
 		if(mes != null){
@@ -36,7 +39,7 @@
 		}else{
 			location.href=str;
 		}
-	};
+	};	
 	
 	//送該表單
 	function cofirm_mesf(myform, mes, article_id){
@@ -123,10 +126,15 @@
 		// 		}
 	%>
 
-
+	<header>
+		<div class="contain">
+			<h2>線上交流平台×討論版-後台</h2>
+		</div>
+	</header>
 	<section>
 		<div class="contain">
 			<div class="le_mu">
+				<h3>後台選單</h3>
 				<ul>
 					<li><a href="#">會員管理</a></li>
 					<li><a href="#">討論版管理</a></li>
@@ -139,8 +147,8 @@
 						//目前動作頁面						
 						act = (String)request.getAttribute("act");
 						String get_act= request.getParameter("act");
-						out.println(act);	
-						out.println(get_act);	
+						//out.println(act);	
+						//out.println(get_act);	
 						//暫且無法使用Attribute傳值，使用GET
 						if(act == null && get_act == null) {
 							//預設頁面
@@ -165,8 +173,8 @@
 							%>
 							
 							<h1>文章總攬</h1>
-							<form action="edit.jsp" method="get">
-								<button type='submit' name='act' value='add'>新增</button>
+							<form class="sele_box_add" action="edit.jsp" method="get">
+								<button class="btn_sty1" type='submit' name='act' value='add'>新增文章</button>
 							</form>
 							<ul>
 							<%
@@ -177,9 +185,9 @@
 								arti_txt = result.getString("arti_txt");
 								%>
 								<li><a href='edit.jsp?act=edit&arti_id=<%=arti_id %>'><%=title %></a>								
-								<form id="myform" name="myform" method='get' action='edit.jsp'>
+								<form class="sele_box" id="myform" name="myform" method='get' action='edit.jsp'>
 								<button type='submit' name='act' value='edit'>修改</button>
-								<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete&arti_id=<%=arti_id %>&act_s=article')">刪除</button>
+								<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id %>&act_s=article&oact=select&delete_id=<%=arti_id %>')">刪除</button>
 								<button type='submit' name='act' value='reply'>查看回覆</button>
 								<input type='hidden' name='arti_id' value='<%=arti_id %>'></form></li>
 								<%
@@ -212,7 +220,7 @@
 							result.close();
 							%>
 							</select></div>
-								<button type='button' onclick="cofirm_mesf('myfome', '確定要新增嗎?')">確定修改</button>
+								<button type='button' onclick="cofirm_mesf('myfome', '確定要新增嗎?')">確定新增</button>
 								<button type='button' name='act' value='select' onclick="cofirm_mes(null, 'edit.jsp?act=select')">取消</button>
 								<input type='hidden' name='act' value='add_data'>		
 								<!-- 管理者user_id -->
@@ -291,11 +299,28 @@
 							 <script>msg('更新成功!!', null);</script>
 							 <%
 						}
-						if (act.equals("delete")) {
+						//刪除文章
+						if (act.equals("delete_arti")) {
 							RequestDispatcher dispatcher=request.getRequestDispatcher("/ArticleDelete");
 							dispatcher.include(request, response);
+							String arti_id = request.getParameter("arti_id");
+							act = request.getParameter("oact");
 							 %>
 							 	<script>msg('刪除成功!!', null);</script>
+							 <%
+						}
+						//刪除回覆
+						if (act.equals("delete_reply")) {
+							RequestDispatcher dispatcher=request.getRequestDispatcher("/ArticleDelete");
+							dispatcher.include(request, response);
+							String arti_id = request.getParameter("arti_id");
+							String reply_id = request.getParameter("reply_id");
+							act = request.getParameter("oact");
+							out.print(reply_id+" "+act);
+							 %>
+							 	<script>
+							 		msg('刪除成功!!', 'edit.jsp?act=<%=act%>&reply_id=<%=reply_id%>&arti_id=<%=arti_id%>');
+							 	</script>
 							 <%
 						}
 						if (act.equals("reply") && request.getParameter("arti_id") != null) {
@@ -304,7 +329,7 @@
 							Statement stm2 = con.createStatement();
 							ResultSet result2 = conn.result;
 							try {
-								result = stm.executeQuery("select distinct a.reply_id, a.reply_txt, a.reply_date, a.user_id, u.username from article_reply as a inner join user as u where a.arti_id="+arti_id);
+								result = stm.executeQuery("select a.reply_id, a.reply_txt, a.reply_date, a.user_id, u.username from article_reply as a inner join user as u where a.arti_id="+arti_id+" group by a.reply_id");
 								result2 = stm2.executeQuery("select title from article where arti_id="+arti_id);
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -315,15 +340,9 @@
 							String reply_date = "";
 							String user_id = "";
 							String username = "";
-
-							while(result2.next()) {
-							%>							
-								<h1>回覆總攬</h1>
-								<strong><%=result2.getString("title") %></strong>
-								<div>
-							<%
-							}
-							int i = 0;
+							
+							//計算筆數
+							int i = 0;							
 							while (result.next()) {
 								reply_id = result.getString("reply_id");
 								reply_date = result.getString("reply_date");
@@ -339,13 +358,17 @@
 								
 															
 								<form id="myform" name="myform" method='get' action='edit.jsp'>
-									<button type='submit' name='act' value='edit'>修改</button>
-									<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete&reply_id=<%=reply_id %>&act_s=article_reply')">刪除</button>
-									<button type='submit' name='act' value='reply'>查看回覆</button>
+									<button type='button' name='' value='' onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_reply&reply_id=<%=reply_id %>&arti_id=<%=arti_id %>&act_s=article_reply&oact=reply')">刪除</button>
 									<input type='hidden' name='arti_id' value='<%=arti_id %>'>
 								</form>
 								<%
 							}
+							if(i==0){
+								%>
+								<p>暫無回覆!!</p>
+								<%
+							}
+							
 							result2.close();
 							result.close();
 							stm2.close();

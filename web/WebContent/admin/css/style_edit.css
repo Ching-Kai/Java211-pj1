@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   outline: none;
   font-family: "Helvetica Neue", Helvetica, Arial, STHeiti, "Microsoft JhengHei",
@@ -31,6 +32,7 @@ body.active {
   overflow: hidden;
 }
 a {
+  text-decoration: none;
   transition: 0.5s all;
   -webkit-transition: 0.5s all;
   -moz-transition: 0.5s all;
@@ -38,20 +40,98 @@ a {
   -ms-transition: 0.5s all;
 }
 a:hover {
-  text-decoration: none;
 }
 .contain {
   width: 100%;
   max-width: 1280px;
+  min-width: 1024px;
   margin: 0 auto;
 }
 /*--後台編輯--*/
+header {
+  text-align: center;
+}
+header h2 {
+  color:#fff;
+  background-color: rgb(43, 80, 122);
+  margin: 0 0 20px 0;  
+  padding: 1rem .5rem;
+}
+.btn_sty1, .ri_edit form.sele_box button {
+  color: #666;
+  padding: .5rem .8rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  cursor: pointer;
+  
+}
+.btn_sty1:hover, .ri_edit form.sele_box button:hover {
+  color: #333;
+  background: #ddd;
+}
+/*--左側選單--*/
 .le_mu {
-  width: 25%;
+  width: 20%;
   float: left;
 }
+.le_mu h3 {
+  color: #fff;
+  display: block;
+  background-color: dodgerblue;
+  padding:.5rem 1rem;
+  margin: 0;
+}
+.le_mu li {
+  display: block;
+}
+.le_mu li a {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: .5rem .5rem;
+  background: #f2f2f2;
+}
+.le_mu li a:hover {
+  color: rgb(22, 65, 114);
+  background: #ddd;
+}
+/*--左側選單 end--*/
 .ri_edit {
-  width: 72%;
+  width: 77%;
   float: left;
-  margin-right: 3%;
+  margin-left: 3%;
+}
+.ri_edit h1 {
+  margin: 0 0 20px;
+  padding: .5rem 1rem;
+  border: 1px solid #ddd;
+}
+.ri_edit li {
+  display: block;
+  margin-bottom: .5rem;
+  border: 1px solid #ddd;
+}
+.ri_edit li a {
+  color:rgb(25, 92, 194);
+  display: block;
+  background: #f2f2f2;
+  padding: .8rem;
+}
+.ri_edit li a:hover {
+  color:rgb(25, 132, 194);
+  background: #f2f2f2;
+}
+.ri_edit form.sele_box_add {
+  display: block;
+  margin-bottom: 1rem;
+}
+.ri_edit form.sele_box_add button {
+  font-size: 1.1rem;
+}
+.ri_edit form.sele_box_add button {
+  display: block;
+}
+.ri_edit form.sele_box {
+  padding: .5rem;
 }
