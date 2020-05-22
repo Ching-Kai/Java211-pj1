@@ -36,8 +36,11 @@
 					<p>A personal blog about everything.</p>
 				</div>
 			</div><div class="header-right">
-				<div class="login">
-					<a class="sign_btn" href="#"><i class="fas fa-user-circle"></i>登入</a><a href="registered.html"><i class="fas fa-user-plus"></i>註冊</a>
+			
+			
+<%if (session.getAttribute("account")==null){%>		
+		<div class="login">
+					<a class="sign_btn" href="#"><i class="fas fa-user-circle"></i>登入</a><a href="page_registration.jsp"><i class="fas fa-user-plus"></i>註冊</a>
 			
 					<div class="login_box">
 						<form name="" action="Usercheck.jsp" method="post">
@@ -48,6 +51,16 @@
 						</form>
 					</div>
 				</div>
+ <%}else {
+	 out.print(session.getAttribute("username"));	
+	 session.getAttribute("account_ID");	
+ %>
+ 		-------已登入
+ 		<div class="login">
+		<a href="logout.jsp"><i class="fas fa-user-plus"></i>登出</a>
+		</div>		
+ <%}%>
+
 
 				<div class="search-box">
 					<div id="sb-search" class="sb-search">
