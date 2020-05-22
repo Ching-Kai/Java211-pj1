@@ -52,33 +52,26 @@ public class Forgot extends HttpServlet {
 		ResultSet result = conn.result;
 		String sql = "";
 		String account_ID;
-		sql = "select account_ID from gossipboard.user where account=? and email=? and birthday=?";
+		String password;
+		sql = "select account_ID,password from gossipboard.user where account=? and email=? and birthday=?";
 		
 		 try {
-			
+			preparedStatement =con.prepareStatement(sql);
 			preparedStatement.setString(1,account);
 			preparedStatement.setString(2,email);
 			preparedStatement.setString(3,birthday);
-			preparedStatement =con.prepareStatement(sql);
+			result = preparedStatement.executeQuery();
 			if(result.next()){//確認是否正確
 				HttpSession session = request.getSession();
 				session.setAttribute("account", account);
 				session.setAttribute("email", email);
 				session.setAttribute("birthday", birthday);
 				account_ID=result.getString(1);
+				password=result.getString(2);
+				
 				session.setAttribute("account_ID", account_ID);
-				session.setMaxInactiveInterval(300) ;
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				response.sendRedirect("Sendmail");
+				session.setAttribute("password", password);
+				response.sendRedirect("Send");
 			}else {
 				
 				
@@ -86,8 +79,7 @@ public class Forgot extends HttpServlet {
 			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
         
         
