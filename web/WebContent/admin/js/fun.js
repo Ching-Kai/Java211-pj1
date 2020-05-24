@@ -5,7 +5,8 @@
 			alert(txt);
 		}
 		//預設
-		var default_path = 'edit.jsp';
+		var default_path = location.pathname;
+		alert(default_path);
 		if(path == null){
 			location.href=default_path;
 		}else{

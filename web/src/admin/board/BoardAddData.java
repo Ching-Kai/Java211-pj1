@@ -32,22 +32,36 @@ public class BoardAddData extends HttpServlet {
 		ResultSet result = conn.result;
 		
 		String user_id = request.getParameter("user_id");
-		String title = request.getParameter("title");
-		String arti_update = "current_timestamp";
-		String board_id = request.getParameter("board_id");
-		String arti_txt = request.getParameter("arti_txt");
-		
-		String sql = "insert into article (title, arti_txt, board_id, user_id, arti_update) values('"+title+"','"+arti_txt+"','"+board_id+"','"+user_id+"', "+arti_update+")";
-		
+		String board_name = request.getParameter("board_name");
+		String sql="";
+		int count=0;
+		sql = "select count(*) from board where board_name = '"+board_name+"'";
 		try {
-			PreparedStatement stm1;
-			stm1 = con.prepareStatement(sql);
-			stm1.executeUpdate();
-			stm1.close();
-			con.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
+			result = stm.executeQuery(sql);
+			while(result.next()) {
+			     count = result.getInt(1);
+			}
+			stm.close();
+			result.close();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
 		}
+		if(count==0) {
+			sql = "insert into board (board_name) values('"+board_name+"')";
+			try {
+				PreparedStatement stm1;
+				stm1 = con.prepareStatement(sql);
+				stm1.executeUpdate();
+				stm1.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			request.setAttribute("msg", "新增成功!!");
+		}else {
+			request.setAttribute("msg", "資料重複!!");
+		}
+		
 	}
 
 	/**

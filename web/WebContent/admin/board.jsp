@@ -20,6 +20,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 	href="https://fonticons-free-fonticons.netdna-ssl.com/kits/ffe176a3/publications/72113/woff2.css"
 	media="all">
 <script src="js/fun.js"></script>
+<script></script>
 </head>
 <body>
 	<%
@@ -137,7 +138,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 						if (scout == null) {
 					result = stm.executeQuery("select * from board");
 						} else {
-					result = stm.executeQuery("select * from board where board_name like '%" + search + "%'");
+					result = stm.executeQuery("select * from board where board_name like '%" + search + "%' order by board_ID");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -172,7 +173,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name=''
 								value=''
-								onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=board_id%>&act_s=article&oact=select&delete_id=<%=board_id%>')">刪除</button>
+								onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_board&board_id=<%=board_id%>&act_s=article&oact=select&delete_id=<%=board_id%>')">刪除</button>
 							<input type='hidden' name='board_id' value='<%=board_id%>'>
 						</form></li>
 					<%
@@ -192,7 +193,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 					<h1>新增資料</h1>
 					<form name="myfome" id="myfome" method='get' action=''>
 						<div>
-							<label for='title'>文章標題</label><input type='text' name='title'
+							<label for='title'>文章標題</label><input type='text' name='board_name'
 								value=''>
 						</div>
 						<button type='button' class="btn_sty1"
@@ -210,11 +211,12 @@ String web_title = "線上交流平台×討論版-後台管理";
 				//新增文章SQL
 				if (act.equals("add_data")) {
 
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleAddData");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/BoardAddData");
 					dispatcher.include(request, response);
+					String msg = (String)request.getAttribute("msg");
 				%>
 				<script>
-					msg('新增成功!!', null);
+					msg('<%=msg%>', null);
 				</script>
 				<%
 					}
@@ -267,7 +269,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 					}
 
 				//刪除文章
-				if (act.equals("delete_arti")) {
+				if (act.equals("delete_board")) {
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleDelete");
 					dispatcher.include(request, response);
 					String board_id = request.getParameter("board_id");
