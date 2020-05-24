@@ -57,20 +57,49 @@ header h2 {
   margin: 0 0 20px 0;  
   padding: 1rem .5rem;
 }
-.btn_sty1, .ri_edit form.sele_box button {
+.btn_sty1 {
   color: #666;
   padding: .5rem .8rem;
-  background: #fff;
-  border: 1px solid #ddd;
+  background: #f2f2f2;
+  border: 1px solid #aaa;
   border-radius: 3px;
   cursor: pointer;
   
 }
-.btn_sty1:hover, .ri_edit form.sele_box button:hover {
-  color: #333;
-  background: #ddd;
+.btn_sty1:hover {
+  color: #fff;
+  background: rgb(22, 177, 138);
+  border-color: rgb(22, 177, 138);
 }
-/*--左側選單--*/
+.btn_sty_red:hover {
+  color: #fff;
+  background: rgb(218, 31, 124);
+  border-color: rgb(218, 31, 124);
+}
+.btn_sty_org:hover {
+  color: #fff;
+  background: rgb(238, 116, 46);
+  border-color: rgb(238, 116, 46);
+}
+.btn_sty_blue:hover {
+  color: #fff;
+  background: rgb(33, 123, 240);
+  border-color: rgb(33, 123, 240);
+}
+.ri_edit .search_box {
+  margin-bottom: 20px;
+}
+input.search_bar {
+  font-size: 1rem;
+  padding: .5rem;
+  width: 15rem;
+  border-radius: 3px;
+  border:1px solid #aaa;
+}
+.ri_edit .search_box form {
+  display: inline-block;
+}
+/*--le_mu--*/
 .le_mu {
   width: 20%;
   float: left;
@@ -96,7 +125,7 @@ header h2 {
   color: rgb(22, 65, 114);
   background: #ddd;
 }
-/*--左側選單 end--*/
+/*--le_mu end--*/
 .ri_edit {
   width: 77%;
   float: left;
@@ -113,25 +142,90 @@ header h2 {
   border: 1px solid #ddd;
 }
 .ri_edit li a {
-  color:rgb(25, 92, 194);
+  color: #333;
   display: block;
-  background: #f2f2f2;
+  background: #ffd728;
   padding: .8rem;
 }
 .ri_edit li a:hover {
-  color:rgb(25, 132, 194);
-  background: #f2f2f2;
+  background: #ff9b28;
 }
 .ri_edit form.sele_box_add {
-  display: block;
-  margin-bottom: 1rem;
 }
-.ri_edit form.sele_box_add button {
-  font-size: 1.1rem;
-}
-.ri_edit form.sele_box_add button {
-  display: block;
-}
+/*--select--*/
 .ri_edit form.sele_box {
   padding: .5rem;
 }
+/*--select end--*/
+/*--reply--*/
+.ri_edit .reply h2.article_title {
+  color:#333;
+  font-size: 1.2rem;
+  background-color: #ffd728;
+  display: block;
+  margin: 0;
+  padding: .5rem;
+}
+.reply .article_contain {
+  background-color: #f2f2f2;
+  margin-bottom: 20px;
+}
+.reply .article_contain > div {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.reply .article_contain .storey {
+  color: rgb(0, 105, 146);
+}
+.reply .reply_box {
+  background-color: #f2f2f2;
+  margin-bottom: 15px;
+}
+.reply .reply_box .storey {
+  color:#fff;
+  background-color: rgb(90, 192, 233);
+  padding: .5rem 1rem;
+}
+.reply .reply_box .reply_contain {
+  padding: .5rem 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.reply .reply_box .reply_contain .reply_time, .reply .article_contain .arti_time {
+  color: #999;
+  font-size: .9rem;
+  margin-bottom: .5rem;
+}.reply .reply_box form {
+  padding:.5rem;
+}
+/*--reply end--*/
+/*--edit, add區塊--*/
+.edit {
+
+}
+.edit label {
+  color: #999;
+  font-size: .9rem;
+  display:block;
+  margin-bottom: .4rem;
+}
+.edit input, .edit textarea, .edit select {
+  font-size: 1.2rem;
+  width:100%;
+  padding: .8rem .5rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.edit textarea {
+  font-size: 1rem;
+  min-height: 10rem;
+}
+.edit select {
+  font-size: 1rem;
+}
+.edit form div {
+  margin-bottom: 1rem;
+}
+.edit .arti_time {
+  font-size: .9rem;
+}
+/*--edit, add區塊 end--*/
