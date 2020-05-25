@@ -173,7 +173,7 @@
 							action=''>
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name='' value=''
-								onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select&delete_id=<%=arti_id%>')">刪除</button>
+								onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select')">刪除</button>
 							<button class="btn_sty1 btn_sty_org" type='submit' name='act' value='reply'>查看回覆</button>
 							<input type='hidden' name='arti_id' value='<%=arti_id%>'>
 						</form></li>
@@ -388,7 +388,7 @@
 							action=''>
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name='' value=''
-								onclick="cofirm_mes('確定要刪除該篇文章嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select&delete_id=<%=arti_id%>')">刪除</button>
+								onclick="cofirm_mes('確定要刪除該篇文章嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select')">刪除</button>
 							<input type='hidden' name='arti_id' value='<%=arti_id%>'>
 						</form>
 					</div>

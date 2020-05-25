@@ -6,7 +6,7 @@
 		}
 		//預設
 		var default_path = location.pathname;
-		alert(default_path);
+		//alert(default_path);
 		if(path == null){
 			location.href=default_path;
 		}else{

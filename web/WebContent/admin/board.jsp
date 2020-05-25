@@ -173,7 +173,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name=''
 								value=''
-								onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_board&board_id=<%=board_id%>&act_s=article&oact=select&delete_id=<%=board_id%>')">刪除</button>
+								onclick="cofirm_mes('確定要刪除嗎?', 'board.jsp?act=delete_board&board_id=<%=board_id%>&act_s=board&oact=select')">刪除</button>
 							<input type='hidden' name='board_id' value='<%=board_id%>'>
 						</form></li>
 					<%
@@ -270,7 +270,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 
 				//刪除文章
 				if (act.equals("delete_board")) {
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleDelete");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/BoardDelete");
 					dispatcher.include(request, response);
 					String board_id = request.getParameter("board_id");
 					act = request.getParameter("oact");
