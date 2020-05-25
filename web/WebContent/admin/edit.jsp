@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.sql.*, java.util.*, sql_connection.Connection_sql"%>
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count"%>
 
 <%
 	//web title
@@ -133,6 +133,8 @@
 				if (act.equals("select")) {
 					String scout = request.getParameter("scout");
 					String search = request.getParameter("search");
+					if(search == null)
+						search = "";
 					try {
 						if(scout == null){
 							result = stm.executeQuery("select * from article");
@@ -161,7 +163,20 @@
 					</form>
 				</div>
 				<ul>
+					
+					
 					<%
+						int count = new Search_count().count(result);
+						if(count==0){
+							%>
+								<div class="count_res"><h2>查無此資料!!</h2></div>
+							<%
+						}else{
+					%>
+							<div class="count_res">共有 <%=count %>筆 資料</div>
+					<%
+						}
+						
 						while (result.next()) {
 						arti_id = result.getString("arti_id");
 						title = result.getString("title");

@@ -152,6 +152,10 @@ input.search_bar {
 }
 .ri_edit form.sele_box_add {
 }
+.ri_edit .count_res {
+  color: #999;
+  margin-bottom: 1rem;
+}
 /*--select--*/
 .ri_edit form.sele_box {
   padding: .5rem;
@@ -229,3 +233,18 @@ input.search_bar {
   font-size: .9rem;
 }
 /*--edit, add區塊 end--*/
+/*--board區塊--*/
+.board .board_contain {
+	
+}
+.ri_edit .board li {
+  color: #e7770e;
+  display: inline-block;
+  margin-bottom: .5rem;
+  border: 1px solid #ddd;
+}
+.board .board_contain > div {
+	padding: 1rem;
+	border-bottom:1px solid #ddd;
+}
+/*--board區塊 end--*/

@@ -27,7 +27,7 @@
 	};	
 	
 	//送該表單
-	function cofirm_mesf(myform, mes, article_id){
+	function cofirm_mesf(myform, mes){
 		var form = document.getElementById(myform);
 		if(confirm(mes)){
 			form.submit();

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.sql.*, java.util.*, sql_connection.Connection_sql"%>
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count"%>
 
 <%
 	//web title
@@ -134,6 +134,8 @@ String web_title = "線上交流平台×討論版-後台管理";
 				if (act.equals("select")) {
 					String scout = request.getParameter("scout");
 					String search = request.getParameter("search");
+					if(search == null)
+						search = "";
 					try {
 						if (scout == null) {
 					result = stm.executeQuery("select * from board");
@@ -147,7 +149,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 					String board_id = "";
 					String board_name = "";
 				%>
-
+				<div class="board">
 				<h1>討論版總攬</h1>
 				<div class="search_box">
 					<form class="search" action="" method="get">
@@ -163,11 +165,27 @@ String web_title = "線上交流平台×討論版-後台管理";
 				</div>
 				<ul>
 					<%
+						int count = new Search_count().count(result);
+						if(count==0){
+							%>
+								<div class="count_res"><h2>查無此資料!!</h2></div>
+							<%
+						}else{
+					%>
+							<div class="count_res">共有 <%=count %>筆 資料</div>
+					<%
+						}
+						result.beforeFirst();
 						while (result.next()) {
 						board_id = result.getString("board_ID");
 						board_name = result.getString("board_name");
 					%>
-					<li><%=board_name%>
+					<li>
+					<div class="board_contain">
+						<div>
+							<%=board_name%>
+						</div>
+					</div>
 						<form class="sele_box" id="myform" name="myform" method='get'
 							action=''>
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
@@ -180,20 +198,21 @@ String web_title = "線上交流平台×討論版-後台管理";
 						}
 					%>
 				</ul>
+				</div>
 				<%
-					result.close();
+				result.close();
 				stm.close();
 				con.close();
 				}
 
-				//新增文章
+				//新增討論版
 				if (act.equals("add")) {
 				%>
 				<div class="edit add">
 					<h1>新增資料</h1>
 					<form name="myfome" id="myfome" method='get' action=''>
 						<div>
-							<label for='title'>文章標題</label><input type='text' name='board_name'
+							<label for='title'>討論版標題</label><input type='text' name='board_name'
 								value=''>
 						</div>
 						<button type='button' class="btn_sty1"
@@ -208,7 +227,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 				<%
 					}
 
-				//新增文章SQL
+				//新增討論版SQL
 				if (act.equals("add_data")) {
 
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/BoardAddData");
@@ -224,13 +243,12 @@ String web_title = "線上交流平台×討論版-後台管理";
 				//修改文章
 				if (act.equals("edit") && request.getParameter("board_id") != null) {
 					String board_id = request.getParameter("board_id");
-					result = stm.executeQuery("select * from board board_id where board_id = " + board_id);
+					result = stm.executeQuery("select * from board where board_id = " + board_id);
 
 					String board_name = "";
 
 					while (result.next()) {
 						board_name = result.getString("board_name");
-						board_id = result.getString("board_id");
 				%>
 				<div class="edit">
 					<h1>更新資料</h1>
@@ -256,14 +274,15 @@ String web_title = "線上交流平台×討論版-後台管理";
 				<%
 					}
 
-				//修改文章SQL
+				//修改討論版SQL
 				if (act.equals("update") && request.getParameter("board_id") != null) {
 
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleUpdate");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/BoardUpdate");
 					dispatcher.include(request, response);
+					String msg = (String)request.getAttribute("msg");
 				%>
 				<script>
-					msg('更新成功!!', null);
+					msg('<%=msg%>', null);
 				</script>
 				<%
 					}

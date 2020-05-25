@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.sql.*, java.util.*, sql_connection.Connection_sql"%>
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count"%>
 
 <%
 	//web title
@@ -133,20 +133,21 @@
 				if (act.equals("select")) {
 					String scout = request.getParameter("scout");
 					String search = request.getParameter("search");
+					if(search == null)
+						search = "";
 					try {
 						if(scout == null){
-							result = stm.executeQuery("select * from article");
+							result = stm.executeQuery("select * from user");
 						}else{
-							result = stm.executeQuery("select * from article where title like '%"+search+"%'");
+							result = stm.executeQuery("select * from user where title like '%"+search+"%'");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.out.println("查詢發生錯誤!");
 					}
-					String arti_id = "";
-					String title = "";
-					String arti_date = "";
-					String arti_txt = "";
+					String user_id = "";
+					String user_name = "";
+					String account_right = "";
 				%>
 
 				<h1>文章總攬</h1>
@@ -161,21 +162,33 @@
 					</form>
 				</div>
 				<ul>
+					
+					
 					<%
-						while (result.next()) {
-						arti_id = result.getString("arti_id");
-						title = result.getString("title");
-						arti_date = result.getString("arti_date");
-						arti_txt = result.getString("arti_txt");
+						int count = new Search_count().count(result);
+						if(count==0){
+							%>
+								<div class="count_res"><h2>查無此資料!!</h2></div>
+							<%
+						}else{
 					%>
-					<li><a href='edit.jsp?act=reply&arti_id=<%=arti_id%>'><%=title%></a>
+							<div class="count_res">共有 <%=count %>筆 資料</div>
+					<%
+						}
+						
+						while (result.next()) {
+							user_id = result.getString("account_ID");
+							user_name = result.getString("username");
+							account_right = result.getString("account_right");
+					%>
+					<li><a href='member.jsp?act=reply&arti_id=<%=user_id%>'><%=user_name%></a>
 						<form class="sele_box" id="myform" name="myform" method='get'
 							action=''>
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name='' value=''
-								onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select&delete_id=<%=arti_id%>')">刪除</button>
+								onclick="cofirm_mes('確定要刪除嗎?', 'member.jsp?act=delete_user&user_id=<%=user_id%>&act_s=user&oact=select')">刪除</button>
 							<button class="btn_sty1 btn_sty_org" type='submit' name='act' value='reply'>查看回覆</button>
-							<input type='hidden' name='arti_id' value='<%=arti_id%>'>
+							<input type='hidden' name='user_id' value='<%=user_id%>'>
 						</form></li>
 					<%
 						}
@@ -194,28 +207,25 @@
 				<h1>新增資料</h1>
 				<form name="myfome" id="myfome" method='get' action=''>
 					<div>
-						<label for='title'>文章標題</label><input type='text' name='title'
+						<label for='account'>帳號</label>
+						<textarea type='text' name='account'></textarea>
+					</div>
+					<div>
+						<label for='password'>密碼</label>
+						<textarea type='text' name='password'></textarea>
+					</div>
+					<div>
+						<label for='user_name'>姓名</label><input type='text' name='user_name'
 							value=''>
 					</div>
 					<div>
-						<label for='arti_txt'>文章內文</label>
-						<textarea type='text' name='arti_txt'></textarea>
+						<label for='gender'>性別</label><input name="gender" type="radio" value="m">男 <input name="gender" type="radio" value="w">女
 					</div>
 					<div>
-						<label for='board_id'>討論版分類</label><select name='board_id'>
-							<%
-								//討論版選擇
-							result = stm.executeQuery("select * from board");
-							String line = "";
-							while (result.next()) {
-								String board_ido = result.getString("board_id");
-								String board_name = result.getString("board_name");
-								line += "<option value='" + board_ido + "'>" + board_name + "</option>";
-							}
-							out.println(line);
-							result.close();
-							%>
-						</select>
+						<label for='birthday'>生日</label><input name="birthday" type="date" value="">
+					</div>
+					<div>
+						<label for='mail'>信箱</label><input name="mail" type="email" value="">
 					</div>
 					<button type='button' class="btn_sty1" onclick="cofirm_mesf('myfome', '確定要新增嗎?')">確定新增</button>
 					<button type='button' class="btn_sty1 btn_sty_red" name='act' value='select'
@@ -388,7 +398,7 @@
 							action=''>
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name='' value=''
-								onclick="cofirm_mes('確定要刪除該篇文章嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select&delete_id=<%=arti_id%>')">刪除</button>
+								onclick="cofirm_mes('確定要刪除該篇文章嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select')">刪除</button>
 							<input type='hidden' name='arti_id' value='<%=arti_id%>'>
 						</form>
 					</div>
