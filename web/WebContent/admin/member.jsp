@@ -137,9 +137,9 @@
 						search = "";
 					try {
 						if(scout == null){
-							result = stm.executeQuery("select * from user");
+							result = stm.executeQuery("select * from gossipboard.user");
 						}else{
-							result = stm.executeQuery("select * from user where title like '%"+search+"%'");
+							result = stm.executeQuery("select * from gossipboard.user where username like '%"+search+"%'");
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
