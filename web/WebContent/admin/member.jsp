@@ -148,12 +148,12 @@
 					String user_id = "";
 					String username = "";
 					String account_right = "";
-					String account_ID="";
+					//String account_ID="";
 					String account="";
 					String email="";
 					String birthday="";
 					String gender="";
-					
+					String password="";
 					
 					
 					
@@ -186,18 +186,23 @@
 						}
 						
 						while (result.next()) {
-							account_ID = result.getString("account_ID");
+							user_id = result.getString("user_id");
 							account=result.getString("account");
 							username = result.getString("username");
 							account_right = result.getString("account_right");
+							password=result.getString("password");
+							gender=result.getString("gender");
+							email=result.getString("email");
+							birthday=result.getString("birthday");
+							
 					%>
-					<li><a href='member.jsp?act=reply&account_ID=<%=account_ID%>'>帳號:<%=account%> 暱稱:<%=username%></a>
-					   
+					<li> 帳號: <%=account%> 暱稱: <%=username%> 密碼: <%=password%> 性別: <%=gender%> 信箱: <%=email%> 生日: <%=birthday%>
+<%-- 					   <a href='member.jsp?act=reply&user_id=<%=user_id%>'></a> --%>
 						<form class="sele_box" id="myform" name="myform" method='get'
 							action=''>
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name='' value=''
-								onclick="cofirm_mes('確定要刪除嗎?', 'member.jsp?act=delete_user&user_id=<%=user_id%>&act_s=user&oact=select')">刪除</button>
+								onclick="cofirm_mes('確定要刪除嗎?', 'member.jsp?act=delete_user&user_id=<%=user_id%>')">刪除</button>
 							<button class="btn_sty1 btn_sty_org" type='submit' name='act' value='reply'>查看回覆</button>
 							<input type='hidden' name='user_id' value='<%=user_id%>'>
 						</form></li>
@@ -236,7 +241,7 @@
 						<label for='birthday'>生日</label><input name="birthday" type="date" value="">
 					</div>
 					<div>
-						<label for='mail'>信箱</label><input name="email" type="email" value="">
+						<label for='email'>信箱</label><input name="email" type="email" value="">
 					</div>
 					<button type='button' class="btn_sty1" onclick="cofirm_mesf('myfome', '確定要新增嗎?')">確定新增</button>
 					<button type='button' class="btn_sty1 btn_sty_red" name='act' value='select'
@@ -264,55 +269,73 @@
 				
 				
 				
-				//修改文章
-				if (act.equals("edit") && request.getParameter("arti_id") != null) {
+				
+				
+				
+				//修改會員資料
+				if (act.equals("edit") && request.getParameter("user_id") != null) {
 					String line = "";
-					String arti_id = request.getParameter("arti_id");
+					String user_id = request.getParameter("user_id");
 					//String arti_id = "1";
-					String title = "";
-					String arti_date = "";
-					String arti_txt = "";
-					String board_id = "";
-					result = stm.executeQuery("select * from article where arti_id = '" + arti_id + "'");
+					
+					 
+					String account = "";
+					String password = "";
+					String username = "";
+					String gender="";
+					String email="";
+					String birthday="";
+					
+					result = stm.executeQuery("select * from user where user_id = '" + user_id + "'");
 
 					Statement stm2 = con.createStatement();
 					ResultSet result2 = conn.result;
 					result2 = stm2.executeQuery("select * from board");
 					while (result.next()) {
-						title = result.getString("title");
-						arti_date = result.getString("arti_date");
-						board_id = result.getString("board_id");
-						arti_txt = result.getString("arti_txt");
+						account = result.getString("account");
+						password = result.getString("password");
+						username = result.getString("username");
+						gender = result.getString("gender");
+						email=result.getString("email");
+						birthday=result.getString("birthday");
 				%>
 				<div class="edit">
 					<h1>更新資料</h1>
 					<form class="" name="myfome" id="myfome" method='get'
 						action=''>
 						<div>
-							<label for='title'>文章標題</label><input type='text' name='title'
-								value='<%=title%>'>
-						</div>
+						<label for='account'>帳號</label>
+						<input type='text' name='account' value='<%=account%>'></input>
+						
+					</div>
+					<div>
+						<label for='password'>密碼</label>
+						<input type='text' name='password' value='<%=password%>'></input>
+					</div>
+					<div>
+						<label for='user_name'>姓名</label>
+						<input type='text' name='username'value='<%=username%>'></input>
+					</div>
+					<div>
+						<label for='gender'>性別</label>
+						<%if(gender.equals("man")){%>
+						<input name="gender" type="radio" value="mam"  checked>男 
+						<input name="gender" type="radio" value="woman">女
+						<%}else{%>
+						<input name="gender" type="radio" value="mam"  >男 
+						<input name="gender" type="radio" value="woman" checked>女
+						<%} %>
+					</div>
+					<div>
+						<label for='birthday'>生日</label><input name="birthday" type="date" value="<%=birthday%>">
+					</div>
+					<div>
+						<label for='email'>信箱</label><input name="email" type="email" value="<%=email%>">
+					</div>
 						<div>
-							<label for=''>發文日期</label><font title="<%=arti_date%>" class="arti_time"><%=arti_date%></font></div>
-						<div>
-							<label for='arti_txt'>文章內文</label>
-							<textarea type='text' name='arti_txt'><%=arti_txt%></textarea>
-						</div>
-						<div>
-							<label for='board_id'>討論版類別</label><select name='board_id'>
-
 								<%
-									//討論版選擇
-								while (result2.next()) {
-									String board_ido = result2.getString("board_id");
-									String board_name = result2.getString("board_name");
-									line += "<option value='" + board_ido + "' ";
-									//預設當前討論版
-									if (board_id.equals(board_ido)) {
-										line += "selected";
-									}
-									line += ">" + board_name + "</option>";
-								}
+									
+								
 								out.println(line);
 								}
 								result2.close();
@@ -321,14 +344,14 @@
 								stm.close();
 								con.close();
 								%>
-							</select>
+							
 						</div>
 						<button class="btn_sty1" type='button'
 							onclick="cofirm_mesf('myfome', '確定要修改嗎?')">確定修改</button>
 
 						<button class="btn_sty1 btn_sty_red" type='button' name='act' value='select'
 							onclick="cofirm_mes(null, 'edit.jsp?act=select')">取消</button>
-						<input type='hidden' name='arti_id' value='<%=arti_id%>'>
+						<input type='hidden' name='user_id' value='<%=user_id%>'>
 						<input type='hidden' name='act' value='update'>
 					</form>
 				</div>
@@ -336,9 +359,9 @@
 					}
 				
 				//修改文章SQL
-				if (act.equals("update") && request.getParameter("arti_id") != null) {
+				if (act.equals("update") && request.getParameter("user_id") != null) {
 
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleUpdate");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/MemberUpdate");
 					dispatcher.include(request, response);
 				%>
 				<script>msg('更新成功!!', null);</script>
@@ -346,125 +369,33 @@
 					}
 				
 				//刪除文章
-				if (act.equals("delete_arti")) {
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleDelete");
+				if (act.equals("delete_user")) {
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/MemberDelete");
 					dispatcher.include(request, response);
-					String arti_id = request.getParameter("arti_id");
-					act = request.getParameter("oact");
+					String user_id = request.getParameter("user_id");
+					//act = request.getParameter("oact");
 				%>
 				<script>msg('刪除成功!!', null);</script>
 				<%
 					}
-				//刪除文章or回覆
-				if (act.equals("delete_reply")) {
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleDelete");
-					dispatcher.include(request, response);
-					String arti_id = request.getParameter("arti_id");
-					String reply_id = request.getParameter("reply_id");
-					act = request.getParameter("oact");
-					out.print(reply_id + " " + act);
 				%>
-				<script>
-					msg('刪除成功!!', 'edit.jsp?act=<%=act%>&reply_id=<%=reply_id%>&arti_id=<%=arti_id%>');
-				</script>
-				<%
-					}
-				
-				//回覆文章總覽
-				if (act.equals("reply") && request.getParameter("account_id") != null) {
+<!-- 				//刪除文章or回覆 -->
+<!-- // 				if (act.equals("delete_reply")) { -->
+<!-- // 					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleDelete"); -->
+<!-- // 					dispatcher.include(request, response); -->
+<!-- // 					String arti_id = request.getParameter("arti_id"); -->
+<!-- // 					String reply_id = request.getParameter("reply_id"); -->
+<!-- // 					act = request.getParameter("oact"); -->
+<!-- // 					out.print(reply_id + " " + act); -->
+<%-- 				%> --%>
+<!-- 				<script> -->
+<%-- 					msg('刪除成功!!', 'edit.jsp?act=<%=act%>&reply_id=<%=reply_id%>&arti_id=<%=arti_id%>'); --%>
+<!-- 				</script> -->
+<%-- 				<% --%>
+<!-- // 					} -->
+<%-- 				%> --%>
 
-					String arti_id = request.getParameter("account_id");
-					Statement stm2 = con.createStatement();
-					ResultSet result2 = conn.result;
-					try {
-						result = stm.executeQuery(
-						"select a.reply_id, a.reply_txt, a.reply_date, a.user_id, u.username from article_reply as a inner join user as u where a.arti_id="
-								+ arti_id + " group by a.reply_id");
-						result2 = stm2.executeQuery("select a.title, a.arti_date, a.arti_txt, u.username from article as a inner join user as u on a.arti_id=" + arti_id + " group by arti_id");
-					} catch (Exception e) {
-						e.printStackTrace();
-						System.out.println("查詢發生錯誤!");
-					}
-					String reply_id = "";
-					String reply_txt = "";
-					String reply_date = "";
-					String user_id = "";
-					String username = "";
-
-					while (result2.next()) {
-						String title = result2.getString("title");
-						String arti_date = result2.getString("arti_date");
-						String arti_txt = result2.getString("arti_txt");
-						String arti_username = result2.getString("username");
-				%>
-				<div class="reply">
-					<h1>查看回覆</h1>
-					<h2 class="article_title"><%=title%></h2>
-					<div class="article_contain">
-						<div>							
-							<div class="storey">
-								<span>樓主 </span><span class="username"><%=arti_username%></span>
-							</div>
-							<div class="arti_time">
-								<span><%=arti_date%></span>
-							</div>
-							<span><%=arti_txt%></span>
-						</div>
-						<form class="sele_box" id="myform" name="myform" method='get'
-							action=''>
-							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
-							<button class="btn_sty1 btn_sty_red" type='button' name='' value=''
-								onclick="cofirm_mes('確定要刪除該篇文章嗎?', 'edit.jsp?act=delete_arti&arti_id=<%=arti_id%>&act_s=article&oact=select')">刪除</button>
-							<input type='hidden' name='arti_id' value='<%=arti_id%>'>
-						</form>
-					</div>
-					<%
-						}
-					//計算筆數
-					int i = 0;
-					while (result.next()) {
-						reply_id = result.getString("reply_id");
-						reply_date = result.getString("reply_date");
-						reply_txt = result.getString("reply_txt");
-						user_id = result.getString("user_id");
-						username = result.getString("username");
-						i++;
-					%>
-					<div class="reply_box">
-						<div class="storey">
-							<span><%=i%>樓 </span><span class="username"><%=username%></span>
-						</div>
-						<div class="reply_contain">
-							<div class="reply_time">
-								<span><%=reply_date%></span>
-							</div>
-							<span><%=reply_txt%></span>
-						</div>
-
-						<form id="myform" name="myform" method='get' action=''>
-							<button class="btn_sty1" type='button' name='' value=''
-								onclick="cofirm_mes('確定要刪除嗎?', 'edit.jsp?act=delete_reply&reply_id=<%=reply_id%>&arti_id=<%=arti_id%>&act_s=article_reply&oact=reply')">刪除</button>
-							<input type='hidden' name='arti_id' value='<%=arti_id%>'>
-						</form>
-					</div>
-					<%
-						}
-					if (i == 0) {
-					%>
-					<p>暫無回覆!!</p>
-					<%
-						}
-					%>
-				</div>
-				<%
-				result2.close();
-				result.close();
-				stm2.close();
-				stm.close();
-				con.close();
-				}
-				%>
-			</div>
+			
 		</div>
 		</div>
 	</section>
