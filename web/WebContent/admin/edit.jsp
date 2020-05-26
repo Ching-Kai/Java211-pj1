@@ -367,9 +367,9 @@
 					ResultSet result2 = conn.result;
 					try {
 						result = stm.executeQuery(
-						"select a.reply_id, a.reply_txt, a.reply_date, a.user_id, u.username from article_reply as a inner join user as u where a.arti_id="
+						"select a.reply_id, a.reply_txt, a.reply_date, a.user_id, u.username from article_reply as a inner join user as u using(user_id) where a.arti_id="
 								+ arti_id + " group by a.reply_id");
-						result2 = stm2.executeQuery("select a.title, a.arti_date, a.arti_txt, u.username from article as a inner join user as u on a.arti_id=" + arti_id + " group by arti_id");
+						result2 = stm2.executeQuery("select a.title, a.arti_date, a.arti_txt, u.username, u.user_id from article as a inner join user as u using(user_id) where a.arti_id=3 group by arti_id");
 					} catch (Exception e) {
 						e.printStackTrace();
 						System.out.println("查詢發生錯誤!");
