@@ -146,11 +146,20 @@
 						System.out.println("查詢發生錯誤!");
 					}
 					String user_id = "";
-					String user_name = "";
+					String username = "";
 					String account_right = "";
+					String account_ID="";
+					String account="";
+					String email="";
+					String birthday="";
+					String gender="";
+					
+					
+					
+					
 				%>
 
-				<h1>文章總攬</h1>
+				<h1>會員總攬</h1>
 				<div class="search_box">
 					<form class="search" action="" method="get">
 						<input class="search_bar" name="search" type="text" value="<%=search %>">
@@ -158,7 +167,7 @@
 						<input name="scout" type="hidden" value="1">
 					</form>
 					<form class="sele_box_add" action="" method="get">
-						<button class="btn_sty1" type='submit' name='act' value='add'>新增文章</button>
+						<button class="btn_sty1" type='submit' name='act' value='add'>新增帳號</button>
 					</form>
 				</div>
 				<ul>
@@ -177,11 +186,13 @@
 						}
 						
 						while (result.next()) {
-							user_id = result.getString("account_ID");
-							user_name = result.getString("username");
+							account_ID = result.getString("account_ID");
+							account=result.getString("account");
+							username = result.getString("username");
 							account_right = result.getString("account_right");
 					%>
-					<li><a href='member.jsp?act=reply&arti_id=<%=user_id%>'><%=user_name%></a>
+					<li><a href='member.jsp?act=reply&account_ID=<%=account_ID%>'>帳號:<%=account%> 暱稱:<%=username%></a>
+					   
 						<form class="sele_box" id="myform" name="myform" method='get'
 							action=''>
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
@@ -200,11 +211,11 @@
 				con.close();
 				}
 				
-				//新增文章
+				//新增會員
 				if (act.equals("add")) {
 				%>
 				<div class="edit add">
-				<h1>新增資料</h1>
+				<h1>新增會員</h1>
 				<form name="myfome" id="myfome" method='get' action=''>
 					<div>
 						<label for='account'>帳號</label>
@@ -215,17 +226,17 @@
 						<textarea type='text' name='password'></textarea>
 					</div>
 					<div>
-						<label for='user_name'>姓名</label><input type='text' name='user_name'
+						<label for='user_name'>姓名</label><input type='text' name='username'
 							value=''>
 					</div>
 					<div>
-						<label for='gender'>性別</label><input name="gender" type="radio" value="m">男 <input name="gender" type="radio" value="w">女
+						<label for='gender'>性別</label><input name="gender" type="radio" value="mam">男 <input name="gender" type="radio" value="woman">女
 					</div>
 					<div>
 						<label for='birthday'>生日</label><input name="birthday" type="date" value="">
 					</div>
 					<div>
-						<label for='mail'>信箱</label><input name="mail" type="email" value="">
+						<label for='mail'>信箱</label><input name="email" type="email" value="">
 					</div>
 					<button type='button' class="btn_sty1" onclick="cofirm_mesf('myfome', '確定要新增嗎?')">確定新增</button>
 					<button type='button' class="btn_sty1 btn_sty_red" name='act' value='select'
@@ -241,12 +252,17 @@
 				//新增文章SQL
 				if (act.equals("add_data")) {
 
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/ArticleAddData");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/MemberAddData");
 					dispatcher.include(request, response);
 				%>
 				<script>msg('新增成功!!', null);</script>
 				<%
 					}
+				
+				
+				
+				
+				
 				
 				//修改文章
 				if (act.equals("edit") && request.getParameter("arti_id") != null) {
@@ -355,9 +371,9 @@
 					}
 				
 				//回覆文章總覽
-				if (act.equals("reply") && request.getParameter("arti_id") != null) {
+				if (act.equals("reply") && request.getParameter("account_id") != null) {
 
-					String arti_id = request.getParameter("arti_id");
+					String arti_id = request.getParameter("account_id");
 					Statement stm2 = con.createStatement();
 					ResultSet result2 = conn.result;
 					try {
