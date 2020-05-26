@@ -46,26 +46,26 @@ try {
     String account = request.getParameter("account");
     String password = request.getParameter("password");
 	String username="";
-	String account_ID="";
+	String user_id="";
 	String sql="";
 
 	
 	
 	
 	
-    sql = "select account_ID,username from gossipboard.user where account=? and password=?";
+    sql = "select user_id,username from gossipboard.user where account=? and password=?";
     preparedStatement =cnct.prepareStatement(sql);
     preparedStatement.setString(1,account);
     preparedStatement.setString(2,password);
     resultSet = preparedStatement.executeQuery();
     if(resultSet.next()){//確認帳號密碼是否正確
-    	account_ID=resultSet.getString(1);
+    	user_id=resultSet.getString(1);
     	username=resultSet.getString(2);
     	session.setAttribute("account",account);//回傳account
     	session.setAttribute("username",username);//回傳username
-    	session.setAttribute("account_ID",account_ID);//回傳account_ID
+    	session.setAttribute("user_id",user_id);//回傳user_id
        out.println("登入成功");
-       response.sendRedirect("Test.jsp");//轉址
+       response.sendRedirect("index.jsp");//轉址
     }
     
     else{
