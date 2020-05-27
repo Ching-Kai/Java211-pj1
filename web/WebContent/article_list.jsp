@@ -22,12 +22,36 @@
 		<div class="container">
 			<div class="col-md-9 posta">
                 <font class="article_t">搜尋此討論版：</font>
-                <form class="article_search">
-                    <input name=""><button type="submit"><i class="fas fa-search"></i></button><select>
+                <%
+
+				String scout = request.getParameter("scout");
+				String search = request.getParameter("search");
+				String board_id = request.getParameter("board_id");
+				if(board_id == null)
+					board_id = "6";	//預設討論版搜尋id
+				if(search == null)
+					search = "";
+				try {
+					if (scout == null) {
+						result = stm.executeQuery("select * from (select * from article where board_id="+board_id+") article inner join board using(board_ID) inner join user using(user_id) group by arti_id order by arti_update desc");
+					} else {
+						result = stm.executeQuery("select * from (select * from article where board_id="+board_id+" and title like '%"+search+"%') article inner join board using(board_ID) inner join user using(user_id) group by arti_id order by arti_update desc");
+				//result = stm.executeQuery("select * from article where title like '%" + search + "%' order by arti_update DESC");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("查詢發生錯誤!");
+				}
+                %>
+                <form class="article_search" action="" method="get">
+                    <input class="search_bar" name="search" type="text"
+							value="<%=search%>"><button type="submit" name='' value=''><i class="fas fa-search"></i></button><select>
                         <option>全部主題</option>
                         <option>發問問題發問問題發問問題發問問題</option>
                         <option>閒聊</option>
                     </select>
+					<input name="scout" type="hidden" value="1">
+					<input name="board_id" type="hidden" value="<%=board_id %>">
 				</form>
 				<div class="board_sort">
 					<ul>
@@ -36,66 +60,69 @@
 						<li><a href="">閒聊</a></li>
 					</ul>
 				</div>
-				<h3><strong>遊戲討論</strong>
+				<%
+
+                Statement stm2 = con.createStatement();
+                ResultSet result2 = conn.result;
+				try {
+					result2 = stm2.executeQuery("select * from board where board_id="+board_id);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println("查詢發生錯誤!");
+				}
+				%>
+				<h3><strong>
+				<%
+				while(result2.next()){
+					out.print(result2.getString("board_name")+" 討論版");
+				}
+				%>
+				</strong>
 					<label1></label1>
 				</h3>
 				<div class="posta-top">
+				<%		
+					result2.close();
+					stm2.close();
+					
+					while(result.next()){
+						
+				%>
 					<div class="posta-1">
 						<div class="posta-left">
 							<a href="single.html"><img src="images/7.jpg" class="img-responsive" alt=""></a>
 						</div>
 						<div class="posta-right">
-							<h4><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h4>
-							<p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
+							<h4><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>"><%=result.getString("title") %></a></h4>
+							<p><%=result.getString("arti_txt") %></p>
 
+							<%
+
+							stm2 = con.createStatement();
+			                result2 = conn.result;
+							try {
+								result2 = stm2.executeQuery("select * from article_reply where arti_id="+result.getString("arti_id"));
+								
+							} catch (Exception e) {
+								e.printStackTrace();
+								System.out.println("查詢發生錯誤!");
+							}
 							
-							<span class="itac">Paulo Ricardo<i class="dot_"></i><i class="far fa-clock"></i> 3 天前<i class="dot_"></i><i class="fas fa-comment-dots"></i> 5<i class="dot_"></i></span>
+							int count = new Search_count().count(result2);
+
+							result2.close();
+							stm2.close();
+							%>
+							<span class="itac"><%=result.getString("username") %><i class="dot_"></i><i class="far fa-clock"></i> <%=result.getString("arti_update") %><i class="dot_"></i><i class="fas fa-comment-dots"></i> <%=count %><i class="dot_"></i></span>
 						</div>
 						<div class="clearfix"> </div>
 						<a class="anabtn" href="single.html">Análise</a>
 					</div>
-					<div class="posta-1">
-						<div class="posta-left">
-							<a href="single.html"><img src="images/7.jpg" class="img-responsive" alt=""></a>
-						</div>
-						<div class="posta-right">
-							<h4><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h4>
-							<p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
-
-							
-							<span class="itac">Paulo Ricardo<i class="dot_"></i><i class="far fa-clock"></i> 3 天前<i class="dot_"></i><i class="fas fa-comment-dots"></i> 5<i class="dot_"></i></span>
-						</div>
-						<div class="clearfix"> </div>
-						<a class="anabtn" href="single.html">Análise</a>
-					</div>
-					<div class="posta-1">
-						<div class="posta-left">
-							<a href="single.html"><img src="images/7.jpg" class="img-responsive" alt=""></a>
-						</div>
-						<div class="posta-right">
-							<h4><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h4>
-							<p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
-
-							
-							<span class="itac">Paulo Ricardo<i class="dot_"></i><i class="far fa-clock"></i> 3 天前<i class="dot_"></i><i class="fas fa-comment-dots"></i> 5<i class="dot_"></i></span>
-						</div>
-						<div class="clearfix"> </div>
-						<a class="anabtn" href="single.html">Análise</a>
-					</div>
-					<div class="posta-1">
-						<div class="posta-left">
-							<a href="single.html"><img src="images/7.jpg" class="img-responsive" alt=""></a>
-						</div>
-						<div class="posta-right">
-							<h4><a href="#">Xbox Series X 主機將如期在年底上市 但部分遊戲可能延期</a></h4>
-							<p>目前微軟確定將會在美國東岸時間5月7日上午11點展示以Xbox Series X硬體實際執行的遊戲畫面，預期也能確認屆時會有哪些遊戲作品登上Xbox Series X。</p>
-
-							
-							<span class="itac">Paulo Ricardo<i class="dot_"></i><i class="far fa-clock"></i> 3 天前<i class="dot_"></i><i class="fas fa-comment-dots"></i> 5<i class="dot_"></i></span>
-						</div>
-						<div class="clearfix"> </div>
-						<a class="anabtn" href="single.html">Análise</a>
-					</div>
+				<%				
+					}
+						
+				%>
 					<div class="p_index">
 						<span><a href="#"><i class="fas fa-angle-left"></i></a></span>
 						<ul>
@@ -105,36 +132,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3  redes">
-				<h3>
-					最新 <strong>文章回覆</strong>
-					<label3></label3>
-				</h3>
-				<div class="dicado-top">
-					<h5>30 app para download</h5>
-				</div>
-				<div class="dicado-bottom">
-					<%
-						result = stm.executeQuery(
-								"select * from article a inner join board using(board_id) inner join (select date(reply_update) reply_update, reply_txt,reply_id, arti_id from article_reply group by reply_id order by reply_update desc) b using(arti_id) left join user using(user_id) group by arti_id order by a.arti_id DESC limit 5");
-
-						while (result.next()) {
-					%>
-					<div class="dicado-1">
-						<h6>
-							<a href="#"><%=result.getString("title")%></a>
-						</h6>
-						<span class="itac">最新回覆 : <%=result.getString("username")%><br />
-						<i class="far fa-clock"></i> <%=result.getString("arti_update")%><i
-							class="dot_"></i><i class="far fa-comment"></i> <%=result.getString("view_num")%></span>
-					</div>
-					<%
-						}
-						stm.close();
-						result.close();
-					%>
-				</div>
-			</div>
+			<jsp:include page="ide/right_side.jsp" /><!--右側篇幅 -->
 			<div class="clearfix"></div>
 		</div>
 	</div>

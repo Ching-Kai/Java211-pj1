@@ -1,5 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count"%>
+
+    <%
+
+	Connection_sql conn = new Connection_sql();
+	conn.connection();
+	Connection con = conn.con;
+	Statement stm = conn.stm;
+	ResultSet result = conn.result;
+	String act = "";
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,17 +20,21 @@
 </head>
 <body>
 
-
+<%
+	result = stm.executeQuery("select * from board");
+%>
 
 
 <div class="gossip_sort">
 		<span><i class="far fa-comments"></i>交流討論平台</span>
 		<ul>
-			<li><a href="" title="美術攝影">美術攝影</a></li>
-			<li><a href="" title="美術攝影">美術攝影</a></li>
-			<li><a href="" title="美術攝影">美術攝影</a></li>
-			<li><a href="" title="美術攝影">美術攝影</a></li>
-			<li><a href="" title="美術攝影">美術攝影</a></li>
+		<%
+		while (result.next()) {
+		%>
+			<li><a href="article_list.jsp?board_id=<%=result.getString("board_id") %>" title="<%=result.getString("board_name") %>"><%=result.getString("board_name") %></a></li>			
+		<%
+		}
+		%>
 		</ul>
 	</div>
 	<!-- banner -->
