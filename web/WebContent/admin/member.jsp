@@ -199,7 +199,17 @@
 							birthday=result.getString("birthday");
 							
 					%>
-					<li> 帳號: <%=account%> 暱稱: <%=username%> 密碼: <%=password%> 性別: <%=gender%> 信箱: <%=email%> 生日: <%=birthday%>
+					<li> 
+					<table border="1" width=70% cellspacing="3" cellpadding="5" >
+					<tr align="center">
+					<th>帳號</th><th>暱稱 </th><th>密碼</th><th>性別</th><th>信箱</th><th> 生日</th>
+					</tr>
+					<tr align="center">
+					 <td><%=account%></td><td><%=username%></td><td><%=password%></td><td><%=gender%></td><td><%=email%></td><td><%=birthday%></td>
+					</tr>
+					
+					</table>
+					
 <%-- 					   <a href='member.jsp?act=reply&user_id=<%=user_id%>'></a> --%>
 						<form class="sele_box" id="myform" name="myform" method='get'
 							action=''>
