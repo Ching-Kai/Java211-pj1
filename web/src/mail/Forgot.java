@@ -51,9 +51,9 @@ public class Forgot extends HttpServlet {
 		PreparedStatement preparedStatement = null;
 		ResultSet result = conn.result;
 		String sql = "";
-		String account_ID;
+		String user_id;
 		String password;
-		sql = "select account_ID,password from gossipboard.user where account=? and email=? and birthday=?";
+		sql = "select user_id,password from gossipboard.user where account=? and email=? and birthday=?";
 		
 		 try {
 			preparedStatement =con.prepareStatement(sql);
@@ -66,10 +66,10 @@ public class Forgot extends HttpServlet {
 				session.setAttribute("account", account);
 				session.setAttribute("email", email);
 				session.setAttribute("birthday", birthday);
-				account_ID=result.getString(1);
+				user_id=result.getString(1);
 				password=result.getString(2);
 				
-				session.setAttribute("account_ID", account_ID);
+				session.setAttribute("user_id", user_id);
 				session.setAttribute("password", password);
 				response.sendRedirect("Send");
 			}else {
