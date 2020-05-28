@@ -8,6 +8,7 @@
 
 </head>
 <body>
+<i class="line"> </i>
 <div class="melhores">
 		<div class="container">
 			<li><i class="cup"> </i></li>

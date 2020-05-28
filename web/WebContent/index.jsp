@@ -26,21 +26,29 @@
 				<div class="ultimas">
 					<label4></label4>
 					</h3>
-				<%				
-					result = stm.executeQuery("select * from article a inner join board using(board_id) inner join (select reply_update, reply_txt,reply_id, arti_id from article_reply group by reply_id order by reply_update desc) b using(arti_id) left join user using(user_id) group by arti_id order by a.view_num, a.arti_update DESC limit 5");
-			
+				<%	
+					String sql="";
+					sql = "select * from article a inner join board using(board_id) inner join ";
+					sql += "(select reply_update, reply_txt,reply_id, arti_id, user_id user_id_re ";
+					sql += "from article_reply group by reply_id order by reply_update desc) b ";
+					sql +="using(arti_id) left join user using(user_id) ";
+					sql +="group by arti_id order by a.view_num, a.arti_update DESC limit 5";
+					result = stm.executeQuery(sql);
+					
+					int i=0;
 					while(result.next()){
+						i++;
+
 				%>
 					<div class="ultimas-top">
-						<span class="ultimas-num">01</span>
+						<span class="ultimas-num"><%="0"+i %></span>
 						<span class="sort_t blue"><%=result.getString("board_name") %></span>
 						<h5><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=result.getString("title") %></a></h5>
-						<span class="itac">最新回覆 : <%=result.getString("username") %><br /><i class="far fa-clock"></i> <%=result.getString("reply_update") %></span><br />
+						<span class="itac">樓主 : <%=result.getString("username") %><br /><i class="far fa-clock"></i> <%=result.getString("arti_update") %></span><br />
 						<div class="clearfix"> </div>
 					</div>
 					
 				<%
-						
 					}
 					result.close();
 				%>

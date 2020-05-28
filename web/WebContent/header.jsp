@@ -42,7 +42,7 @@
 		<div class="container">
 			<div class="header-left">
 				<div class="logo">
-					<a href="index.html"><h1 title="線上交流平台×討論版">線上交流平台<span>×</span>討論版</h1></a>
+					<a href="index.jsp"><h1 title="線上交流平台×討論版">線上交流平台<span>×</span>討論版</h1></a>
 				</div>
 				<div class="gossip_sort_button gossip_close">
 					<span><i class="fas fa-align-left"></i>討論版</span>

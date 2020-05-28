@@ -23,10 +23,13 @@
                 <%
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
-				if(board_id == null)
-					board_id = "6";	//預設討論版搜尋id
-				if(arti_id == null)
-					arti_id = "15";
+				if(board_id == null || arti_id == null)
+					%>
+					<script>
+						alert("發生錯誤!!");
+						location.href='index.jsp';
+					</script>
+					<%
 				String sql="";
 				try {
 					sql = "select * from (select * from article where board_id="+board_id+" ";
