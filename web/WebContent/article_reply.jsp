@@ -23,13 +23,14 @@
                 <%
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
-				if(board_id == null || arti_id == null)
+				if(board_id == null || arti_id == null){
 					%>
 					<script>
 						alert("發生錯誤!!");
 						location.href='index.jsp';
 					</script>
 					<%
+				}
 				String sql="";
 				try {
 					sql = "select * from (select * from article where board_id="+board_id+" ";

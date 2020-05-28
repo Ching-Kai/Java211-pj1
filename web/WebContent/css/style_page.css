@@ -239,6 +239,7 @@ font-size: .9em;
 }
 .article_in .article_box .article_txt {
   line-height: 1.8;
+  min-height: 150px;
   margin-bottom: 30px;
 }
 .article_in .article_box .article_txt p {

@@ -19,16 +19,17 @@
 	</div>
 	<div class="dicado-bottom">
 		<%
-			result = stm.executeQuery(
-					"select * from article a inner join board using(board_id) inner join (select date(reply_update) reply_update, reply_txt,reply_id, arti_id from article_reply group by reply_id order by reply_update desc) b using(arti_id) left join user using(user_id) group by arti_id order by a.arti_id DESC limit 5");
-
+			String sql="";
+			sql = "select * from article a inner join board using(board_id) inner join ";
+			sql += "(select reply_update, reply_txt,reply_id, arti_id, user_id user_id_re ";
+			sql += "from article_reply group by reply_id order by reply_update desc) b ";
+			sql +="using(arti_id) left join user using(user_id) ";
+			sql +="group by arti_id order by b.reply_update DESC limit 5";
+			result = stm.executeQuery(sql);
+			
         	Statement stm2 = con.createStatement();
         	ResultSet result2 = conn.result;
 			while (result.next()) {
-				
-
-				stm2 = con.createStatement();
-                result2 = conn.result;
 				try {
 					result2 = stm2.executeQuery("select * from article_reply where arti_id="+result.getString("arti_id"));
 					
@@ -39,20 +40,29 @@
 				
 				int count = new Search_count().count(result2);
 				result2.close();
-				stm2.close();
+				
+
+				sql="select username username_re from user where user_id="+result.getString("user_id_re");
+				
+				result2 = stm2.executeQuery(sql);
+
+				while(result2.next()){
 		%>
 		<div class="dicado-1">
 			<h6>
 				<a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=result.getString("title")%></a>
 			</h6>
-			<span class="itac">最新回覆 : <%=result.getString("username")%><br />
-			<i class="far fa-clock"></i> <%=result.getString("arti_update")%><i
+			<span class="itac">最新回覆 : <%=result2.getString("username_re")%><br />
+			<i class="far fa-clock"></i> <%=result.getString("reply_update")%><i
 				class="dot_"></i><i class="far fa-comment"></i> <%=count %></span>
 		</div>
 		<%
+				}
 			}
-			stm.close();
 			result.close();
+			stm.close();
+			result2.close();
+			stm2.close();
 		%>
 	</div>
 </div>

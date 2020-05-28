@@ -21,30 +21,33 @@
 	<div class="indica">
 		<div class="container">
                 <%
+				
+                //會員session
+        		Object acc_ID = session.getAttribute("account_ID").toString();
+				String sql="";
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
-				if(board_id == null)
-					board_id = "6";	//預設討論版搜尋id
-				if(arti_id == null)
-					arti_id = "15";
-				String sql="";
-				try {
-					sql = "select * from (select * from article where board_id="+board_id+" ";
-					sql += "and arti_id="+arti_id+") article inner join board using(board_ID) ";
-					sql += "inner join user using(user_id) group by arti_id";
-					result = stm.executeQuery(sql);
+
+					try {
+						sql = "select * from (select * from article where board_id="+board_id+" ";
+						sql += "and arti_id="+arti_id+") article inner join board using(board_ID) ";
+						sql += "inner join user using(user_id) group by arti_id";
+						result = stm.executeQuery(sql);
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+						System.out.println("查詢發生錯誤!");
+					}
 					
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("查詢發生錯誤!");
-				}
+				
                 %>
             <div class="col-md-9 posta">
 				<%		
 
 	        		Statement stm2 = con.createStatement();
 	        		ResultSet result2 = conn.result;
-	        		
+	        		int count=0;
+	        		String view_sum = "";
 					while(result.next()){
 						String gender = result.getString("gender");
 						if(gender.equals("man")){
@@ -64,7 +67,8 @@
 							System.out.println("查詢發生錯誤!");
 						}
 						
-						int count = new Search_count().count(result2);
+						count = new Search_count().count(result2);
+						view_sum = result.getString("view_num");
 
 				%>
                 <div class="article_storey">
@@ -88,20 +92,46 @@
                                     	//result = stm.executeQuery("select");
                                     %>
                                     <font><i class="far fa-comment"></i> <%=count %></font>
-                                    <font>瀏覽人數 <%=result.getString("view_num") %></font>
+                                    <font>瀏覽人數 <%=view_sum %></font>
                                 </span>
                             </div>
                         </div>
                         <div class="article_txt">
                             <%=result.getString("arti_txt") %>
                         </div>
-                        <div class="other_fun"><a title="跳轉至進階發文" href="arti_id=<%=result.getString("arti_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a><span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改</a><a href="">刪除</a></span></span></div>
+                        <div class="other_fun"><a title="跳轉至進階發文" href="arti_id=<%=result.getString("arti_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a>
+                        	<% 
+                        		String user_id= result.getString("user_id");
+                        		if(user_id.equals(acc_ID)) {
+                        			%>
+                        			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改文章</a><a href="">刪除文章</a></span></span>
+                        			<%
+                        		}
+                        	%>
+                        
+                        </div>
                         
 				<%				
 					}
 					result2.close();
 					result.close();
 					stm.close();
+
+	                HttpSession $session = request.getSession();
+	                Object se = $session.getAttribute("arti"+arti_id);
+                	int n = Integer.valueOf(view_sum);
+                	
+                	//清除瀏覽過的文章session
+                	//request.getSession().removeValue("arti"+arti_id);
+	                if(se==null){
+	                	n = Integer.valueOf(view_sum);
+	                	sql ="update article set view_num = "+(n+=1);
+	                	PreparedStatement upstm = con.prepareStatement(sql);
+	                	upstm.executeUpdate();
+	                	upstm.close();
+	                	//設定文章session
+	                    request.getSession().setAttribute("arti"+arti_id, arti_id);
+	                }
 						
 				%>
                     </div>
@@ -149,7 +179,16 @@
                         <div class="article_txt">
                             <%=result2.getString("reply_txt") %>
                         </div>
-                        <div class="other_fun"><a title="跳轉至進階發文" href="<%=result2.getString("reply_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a></div>
+                        <div class="other_fun"><a title="跳轉至進階發文" href="<%=result2.getString("reply_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a>
+                        <% 
+                        		String user_id = result2.getString("user_id");
+                        		if(user_id.equals(acc_ID)) {
+                        			%>
+                        			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改回覆</a><a href="">刪除回覆</a></span></span>
+                        			<%
+                        		}
+                        %>
+                        </div>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
@@ -174,7 +213,6 @@
 			</div>
 			<div class="clearfix"></div>
 		</div>
-
 	<jsp:include page="foot.jsp" /><!--頁尾 -->
 </body>
 </html>
