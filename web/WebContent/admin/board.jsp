@@ -32,14 +32,16 @@ String web_title = "線上交流平台×討論版-後台管理";
 	String act = "";
 
 	//後臺權限
-	String auth = "100";
-	String auth_math = "100";
-	if (auth != auth_math) {
+	int auth_math = 100;
+	int a=0;
+	session.getAttribute("auth");
+	if(session.getAttribute("auth")==null){
+		
 	%>
 	<script>
-		alert("權限錯誤!");
-		location.href = 'https://www.google.com/';
-	</script>
+				//alert("權限錯誤!");
+				location.href="https://www.google.com/";
+			</script>
 	<%
 		//response.sendRedirect("https://www.google.com/");
 	}
@@ -111,6 +113,7 @@ String web_title = "線上交流平台×討論版-後台管理";
 					<li><a href="member.jsp">會員管理</a></li>
 					<li><a href="board.jsp">討論版管理</a></li>
 					<li><a href="edit.jsp">文章管理</a></li>
+					<li><a href="adminlogout.jsp">登出</a></li>
 				</ul>
 
 			</div>

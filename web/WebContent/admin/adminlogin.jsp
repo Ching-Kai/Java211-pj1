@@ -8,10 +8,10 @@
 </head>
 <body>
 
-		<form action="Check" method="post">
+		<form method="post" action="http://localhost:8080/web/Check">
 			<fieldset>
 			<legend>登入資訊</legend>
-			<p><label for="username">帳號：</label><input type="password" name="admin" id="username"></p>
+			<p><label for="username">帳號：</label><input type="password" name="admin" id="admin"></p>
 			<p><label for="passwd">密碼：</label><input type="password" name="passwd" id="passwd"></p>
 			<p><input type="submit" value="登入"> <input type="reset" value="重置"></p>
 			</fieldset>			
