@@ -30,8 +30,6 @@
 	function cofirm_mesf(myform, mes){
 		var form = document.getElementById(myform);
 		if(confirm(mes)){
-			alert(11);
 			form.submit();
 		}
-			alert(22);
 	};

@@ -13,172 +13,170 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	<%@include file="head.jsp"%><!--CSS及JQ-->
-	<link href="css/style_page.css" rel="stylesheet" type="text/css" media="all" />
+<%@include file="head.jsp"%><!--CSS及JQ-->
+<link href="css/style_page.css" rel="stylesheet" type="text/css"
+	media="all" />
+<script type="text/javascript" src="js/fun.js"></script>
 </head>
-<body class="page article_in">
+<body class="page article_in article_reply">
 	<jsp:include page="header.jsp" /><!--頁頭-->
 	<div class="indica">
 		<div class="container">
-                <%
+			<%
+				//會員session
+				Object acc_ID = session.getAttribute("account");
+				Object acc_user_id = session.getAttribute("user_id");
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
-				if(board_id == null || arti_id == null){
-					%>
-					<script>
-						alert("發生錯誤!!");
-						location.href='index.jsp';
-					</script>
-					<%
+
+				String sql = "";
+				//回覆參數
+				String reply_id = request.getParameter("reply_id");		//如果是回覆房客
+				//插入參數
+				//user_id由session取得
+				//String user_id = request.getParameter("user_id");
+				String act = "";
+				String title = request.getParameter("title");
+				
+				//文章
+				//String arti_txt = request.getParameter("article_cont");
+				act = request.getParameter("dir");
+
+				if (reply_id == null) {
+					reply_id = "";
 				}
-				String sql="";
+				if (act == null) {
+					act = "";
+				}
+				//update
+				if (act.equals("re_insert") && acc_user_id != null) {
+					
+					String reply_cont = request.getParameter("reply_cont");
+					sql = "insert into article_reply(reply_txt, reply_update, arti_id, user_id) ";
+					sql +="values("+reply_cont+", current_timestamp, "+arti_id+", "+acc_user_id+")";
+					PreparedStatement upstm = con.prepareStatement(sql);
+					upstm.executeUpdate();
+					upstm.close();
+			%>
+			<script>
+							msg('回覆成功!!', 'article_view.jsp?arti_id=<%=arti_id%>&board_id=<%=board_id%>');
+			</script>
+			<%
+				}
+				out.print(act);
+				//文章內容
 				try {
-					sql = "select * from (select * from article where board_id="+board_id+" ";
-					sql += "and arti_id="+arti_id+") article inner join board using(board_ID) ";
+					sql = "select * from (select * from article where board_id=" + board_id + " ";
+					sql += "and arti_id=" + arti_id + ") article inner join board using(board_ID) ";
 					sql += "inner join user using(user_id) group by arti_id";
 					result = stm.executeQuery(sql);
-					
+
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("查詢發生錯誤!");
 				}
-                %>
-            <div class="col-md-9 posta">
-				<%		
-
-	        		Statement stm2 = con.createStatement();
-	        		ResultSet result2 = conn.result;
-	        		
-					while(result.next()){
+			%>
+			<div class="col-md-9 posta">
+				<%
+					Statement stm2 = con.createStatement();
+					ResultSet result2 = conn.result;
+					int count = 0;
+					String view_sum = "";
+					while (result.next()) {
 						String gender = result.getString("gender");
-						if(gender.equals("man")){
+						if (gender.equals("man")) {
 							gender = "男";
-						}else if(gender.equals("woman")){
+						} else if (gender.equals("woman")) {
 							gender = "女";
-						}else{
+						} else {
 							gender = "錯誤!!";
 						}
-						
+
 						//計算回覆數量
 						try {
-							result2 = stm2.executeQuery("select * from article_reply where arti_id="+result.getString("arti_id"));
-							
+							result2 = stm2
+									.executeQuery("select * from article_reply inner join user using(user_id) where arti_id="
+											+ result.getString("arti_id"));
+
 						} catch (Exception e) {
 							e.printStackTrace();
 							System.out.println("查詢發生錯誤!");
 						}
-						
-						int count = new Search_count().count(result2);
 
+						count = new Search_count().count(result2);
+						view_sum = result.getString("view_num");
 				%>
-                <div class="article_storey">
-                    <div class="author_box">
-                        <div class="head_img"><img src="images/author/img_h.jpeg" title="talkabc123的大頭照" /></div>
-                        <span class="auth_num">樓主</span>
-                        <a class="author" href="?user_id=<%=result.getString("user_id") %>"><%=result.getString("account") %></a>
-                        <span>暱稱<font><%=result.getString("username") %></font></span>
-                        <span>性別<font><%=gender %></font></span>
-                        <span>生日<font><%=result.getString("birthday") %></font></span>
-                    </div>
-                    <div class="article_box">
-                        <div class="info_box">
+				<div class="article_storey">
+					<div class="article_box col-md-12">
+						<form id="myform" name="myform" method="get"
+							action="article_edit.jsp">
+							<div class="info_box">
+								<strong><%=result.getString("title")%></strong>
+								<div>
+									<span class="art_s"><a class="sort" href=""><%=result.getString("board_name")%></a></span>
+									<span class="art_num"> <font><%=result.getString("arti_date")%></font>
+										<%
+											//result = stm.executeQuery("select");
+										%> <font><i class="far fa-comment"></i> <%=count%></font> <font>瀏覽人數
+											<%=view_sum%></font>
+									</span>
+								</div>
+							</div>
+							<div class="article_txt">
+								<%
+										//回覆房客
+										String user_name = "";
+										if (reply_id != "") {
+											sql = "select * from article_reply inner join user using(user_id) where ";
+											sql += "arti_id=" + result.getString("arti_id") + " and reply_id=" + reply_id;
+											result2 = stm2.executeQuery(sql);
+											while (result2.next()) {
+												user_name = result2.getString("username");
+								%>
+								<textarea name="reply_cont">"引用 <%=user_name%>:
+<%=result2.getString("reply_txt")%>"
 
-                            <strong><%=result.getString("title") %></strong>
-                            <div>
-                                <span class="art_s"><a class="sort" href=""><%=result.getString("board_name") %></a></span>
-                                <span class="art_num">
-                                    <font><%=result.getString("arti_date") %></font>
-                                    <%
-                                    	//result = stm.executeQuery("select");
-                                    %>
-                                    <font><i class="far fa-comment"></i> <%=count %></font>
-                                    <font>瀏覽人數 <%=result.getString("view_num") %></font>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="article_txt">
-                            <%=result.getString("arti_txt") %>
-                        </div>
-                        <div class="other_fun"><a title="跳轉至進階發文" href="arti_id=<%=result.getString("arti_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a><span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改</a><a href="">刪除</a></span></span></div>
-                        
-				<%				
-					}
-					result2.close();
-					result.close();
-					stm.close();
-						
-				%>
-                    </div>
-                    <div class="clearfix"> </div>                    
-                </div>
-                
-                <!--回覆-->
-                <%
-				try {
-					result2 = stm2.executeQuery("select * from (select * from article_reply where arti_id="+arti_id+") article_reply inner join user using(user_id) group by reply_id");
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("查詢發生錯誤!");
-				}
-				int i=0;
-				while(result2.next()){
-				String gender = result2.getString("gender");
-				if(gender.equals("man")){
-					gender = "男";
-				}else if(gender.equals("woman")){
-					gender = "女";
-				}else{
-					gender = "錯誤!!";
-				}
-				i++;
-                %>
-                <div class="article_storey">
-                    <div class="author_box">
-                        <div class="head_img"><img src="images/author/img_h.jpeg" title="talkabc123的大頭照" /></div>
-                        <span class="auth_num"><%=i %> 樓</span>
-                        <a class="author" href="<%=result2.getString("user_id") %>"><%=result2.getString("account") %></a>
-                        <span>暱稱<font><%=result2.getString("username") %></font></span>
-                        <span>性別<font><%=gender %></font></span>
-                        <span>生日<font><%=result2.getString("birthday") %></font></span>
-                    </div>
-                    <div class="article_box">
-                        <div class="info_box">
-                            <div>
-                                <span class="art_num">
-                                    <font>回覆日期：<%=result2.getString("reply_date") %></font>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="article_txt">
-                            <%=result2.getString("reply_txt") %>
-                        </div>
-                        <div class="other_fun"><a title="跳轉至進階發文" href="<%=result2.getString("reply_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a></div>
-                    </div>
-                    <div class="clearfix"> </div>
-                </div>
-                <%
-				}
-				result2.close();
-				stm2.close();
-				con.close();
-                %>
-                <!--回覆end-->
-            </div>
-            <jsp:include page="ide/right_side.jsp" /><!--右側篇幅 -->
-            <div class="clearfix"> </div>
-					<div class="p_index">
-						<span><a href="#"><i class="fas fa-angle-left"></i></a></span>
-						<ul>
-							<li><a href="#">1</a></li>
-						</ul>
-						<span><a href="#"><i class="fas fa-angle-right"></i></a></span>
+								</textarea>
+								<%
+											}
+										} else {
+										//回覆樓主
+								%>
+								<textarea name="article_cont"><%=result.getString("arti_txt")%></textarea>
+								<%
+										}
+								%>
+
+							</div>
+							<div class="other_fun">
+								<a class="edit_but_sub" title="我要回覆" href="javascript:void(0);"
+									onclick="cofirm_mesf('myform', '確定回覆嗎?')"><i class="fas fa-reply"></i></i> 我要回覆</a> <a title="取消"
+									href="arti_id=<%=result.getString("arti_id")%>"><i
+									class="fas fa-backspace"></i> 取消回覆</a>
+							</div>
+							<input type="hidden" name="arti_id" value="<%=arti_id%>" /> 
+							<input type="hidden" name="board_id" value="<%=board_id%>" />
+							
+							<input type="hidden" name="dir" value="re_insert" />
+						</form>
+
+						<%
+							}
+							result2.close();
+							result.close();
+							stm.close();
+
+						%>
 					</div>
+					<div class="clearfix"></div>
 				</div>
 			</div>
+			<jsp:include page="ide/right_side.jsp" /><!--右側篇幅 -->
 			<div class="clearfix"></div>
 		</div>
-
+	</div>
+	<div class="clearfix"></div>
+	</div>
 	<jsp:include page="foot.jsp" /><!--頁尾 -->
 </body>
 </html>

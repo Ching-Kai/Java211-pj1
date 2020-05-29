@@ -99,13 +99,14 @@
                         <div class="article_txt">
                             <%=result.getString("arti_txt") %>
                         </div>
-                        <div class="other_fun"><a title="跳轉至進階發文" href="article_edit.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>"><i class="fas fa-comment-alt"></i> 回覆</a>
+                        <div class="other_fun">
+                        	<a title="跳轉至進階發文" href="article_reply.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>"><i class="fas fa-comment-alt"></i> 回覆</a>
                         	<% 
                         		String user_id= result.getString("account");
                         		if(user_id.equals(acc_ID)) {
                         			%>
                         			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele">
-                        				<a href="article_reply.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>">修改文章</a>
+                        				<a href="article_edit.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>">修改文章</a>
                         				<a href="">刪除文章</a></span>
                         			</span>
                         			<%
@@ -182,7 +183,7 @@
                         <div class="article_txt">
                             <%=result2.getString("reply_txt") %>
                         </div>
-                        <div class="other_fun"><a title="跳轉至進階發文" href="<%=result2.getString("reply_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a>
+                        <div class="other_fun"><a title="跳轉至進階發文" href='article_reply.jsp?arti_id=<%=arti_id %>&board_id=<%=board_id %>&reply_id=<%=result2.getString("reply_id") %>&user_id=<%=result2.getString("user_id") %>'><i class="fas fa-comment-alt"></i> 回覆</a>
                         <% 
                         		String user_id = result2.getString("user_id");
                         		if(user_id.equals((String)acc_ID)) {

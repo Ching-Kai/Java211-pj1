@@ -24,10 +24,33 @@
 			<%
 				//會員session
 				Object acc_ID = session.getAttribute("account");
-				String sql = "";
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
+				String sql = "";
+				
+				//更新參數
+				String act = "";
+				String title = request.getParameter("title");
+				String arti_txt = request.getParameter("article_cont");
+				act=request.getParameter("dir");
 
+				if(act==null){
+					act="";
+				}
+				//update
+				if(act.equals("update")){
+					sql = "update article set title='"+title+"', arti_txt='"+arti_txt+"' where arti_id = "+arti_id+" and board_id = "+board_id;
+					PreparedStatement upstm = con.prepareStatement(sql);
+					upstm.executeUpdate();
+					upstm.close();
+					%>
+						<script>
+							msg('修改成功!!', 'article_view.jsp?arti_id=<%=arti_id%>&board_id=<%=board_id%>');
+						</script>
+					<%
+				}
+				out.print(act);
+				//文章內容
 				try {
 					sql = "select * from (select * from article where board_id=" + board_id + " ";
 					sql += "and arti_id=" + arti_id + ") article inner join board using(board_ID) ";
@@ -70,11 +93,9 @@
 						view_sum = result.getString("view_num");
 				%>
 				<div class="article_storey">
-				<h3>最新 <strong>發表文章</strong>
-					<label1></label1>
-				</h3>
+				<h3>修改 <strong>文章內容</strong></h3>
 					<div class="article_box col-md-12">
-						<form name="myform" method="get" action="">
+						<form id="myform" name="myform" method="get" action="article_edit.jsp">
 							<div class="info_box">
 								<strong><input class="title" name="title" value="<%=result.getString("title")%>" /></strong>
 								<div>
@@ -88,7 +109,7 @@
 								</div>
 							</div>
 							<div class="article_txt">
-								<textarea><%=result.getString("arti_txt")%></textarea>
+								<textarea name="article_cont"><%=result.getString("arti_txt")%></textarea>
 								
 							</div>
 							<div class="other_fun">
@@ -100,6 +121,7 @@
 							<input type="hidden" name="arti_id" value="<%=arti_id%>" />
 							<input type="hidden" name="board_id" value="<%=board_id%>" />
 							<input type="hidden" name="user_id" value="<%=result.getString("user_id")%>" />
+							<input type="hidden" name="dir" value="update" />
 						</form>
 
 						<%
@@ -108,21 +130,6 @@
 							result.close();
 							stm.close();
 
-							HttpSession $session = request.getSession();
-							Object se = $session.getAttribute("arti" + arti_id);
-							int n = Integer.valueOf(view_sum);
-
-							//清除瀏覽過的文章session
-							//request.getSession().removeValue("arti"+arti_id);
-							if (se == null) {
-								n = Integer.valueOf(view_sum);
-								sql = "update article set view_num = " + (n += 1) + " where arti_id=" + arti_id;
-								PreparedStatement upstm = con.prepareStatement(sql);
-								upstm.executeUpdate();
-								upstm.close();
-								//設定文章session
-								request.getSession().setAttribute("arti" + arti_id, arti_id);
-							}
 						%>
 					</div>
 					<div class="clearfix"></div>
