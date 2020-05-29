@@ -52,12 +52,12 @@ String title="",user_id="",arti_txt="",board="";
 String sql2="",sql3="";
 
 String username="";
-int view_num=0,board_id=0;
+int view_num=0,board_id=0,arti_id=0;
 Statement stm2,stm3;
 stm2 = con.createStatement();
 stm3=con.createStatement();
 int count1 =0;
-	String sql="select user_id ,SUBSTRING(title,1,27),SUBSTRING(arti_txt,1,40),view_num,board_id from gossipboard.article order by view_num;"; 
+	String sql="select user_id ,SUBSTRING(title,1,27),SUBSTRING(arti_txt,1,40),view_num,board_id,arti_id from gossipboard.article order by view_num;"; 
 	try{
 		result=stm.executeQuery(sql);
 	while(result.next()){
@@ -70,6 +70,7 @@ int count1 =0;
 		arti_txt=result.getString(3);
 		view_num=result.getInt(4);
 		board_id=result.getInt(5);
+		arti_id=result.getInt(6);
 		try{
 			sql2="select username from gossipboard.user where user_id ='"+user_id+"';";
 			
@@ -104,11 +105,11 @@ int count1 =0;
 			<a href="single.html"><img src="images/15.jpg" class="img-responsive" alt=""></a>
 			<a class="gos_btn gamsbtn" href="http://localhost:8080/web/article_list.jsp?board_id=<%=board_id%>"><%= board %></a>
 			<div class="comopasser-bottom" style="width:260px;height:280px">
-				<h3><a href="single.html"><%= title %> </a></h3>
+				<h3><a href="http://localhost:8080/web/article_view.jsp?arti_id=<%= arti_id %>&board_id=<%=board_id%>"><%= title %> </a></h3>
 				<p><%= arti_txt %></p>
 				<div class="curtir">
-					<li><%= username %></li>
-					<li><a class="cap" href="#"><i class="fas fa-comment-dots"></i><%= view_num %></a></li>
+					<li>&nbsp &nbsp<%= username %>    </li>
+					<li>&nbsp<i class="fas fa-comment-dots"></i><%= view_num %></li>
 				</div>
 			</div>
 		</div>
