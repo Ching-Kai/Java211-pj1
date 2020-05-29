@@ -6,6 +6,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 *{  
 	outline: none;
   font-family: 'Helvetica Neue',Helvetica,Arial,STHeiti,'Microsoft JhengHei','微軟正黑體',sans-serif;
+  text-decoration: none;
 }
 h4, h5, h6,
 h1, h2, h3 {margin-top: 0;}

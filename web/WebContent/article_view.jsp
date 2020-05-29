@@ -72,7 +72,7 @@
 
 				%>
                 <div class="article_storey">
-                    <div class="author_box">
+                    <div class="author_box col-md-3">
                         <div class="head_img"><img src="images/author/img_h.jpeg" title="talkabc123的大頭照" /></div>
                         <span class="auth_num">樓主</span>
                         <a class="author" href="?user_id=<%=result.getString("user_id") %>"><%=result.getString("account") %></a>
@@ -80,7 +80,7 @@
                         <span>性別<font><%=gender %></font></span>
                         <span>生日<font><%=result.getString("birthday") %></font></span>
                     </div>
-                    <div class="article_box">
+                    <div class="article_box col-md-9">
                         <div class="info_box">
 
                             <strong><%=result.getString("title") %></strong>
@@ -99,12 +99,15 @@
                         <div class="article_txt">
                             <%=result.getString("arti_txt") %>
                         </div>
-                        <div class="other_fun"><a title="跳轉至進階發文" href="arti_id=<%=result.getString("arti_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a>
+                        <div class="other_fun"><a title="跳轉至進階發文" href="article_edit.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>"><i class="fas fa-comment-alt"></i> 回覆</a>
                         	<% 
                         		String user_id= result.getString("account");
                         		if(user_id.equals(acc_ID)) {
                         			%>
-                        			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改文章</a><a href="">刪除文章</a></span></span>
+                        			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele">
+                        				<a href="article_reply.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>">修改文章</a>
+                        				<a href="">刪除文章</a></span>
+                        			</span>
                         			<%
                         		}
                         	%>
@@ -160,7 +163,7 @@
 				i++;
                 %>
                 <div class="article_storey">
-                    <div class="author_box">
+                    <div class="author_box col-md-3">
                         <div class="head_img"><img src="images/author/img_h.jpeg" title="talkabc123的大頭照" /></div>
                         <span class="auth_num"><%=i %> 樓</span>
                         <a class="author" href="<%=result2.getString("user_id") %>"><%=result2.getString("account") %></a>
@@ -168,7 +171,7 @@
                         <span>性別<font><%=gender %></font></span>
                         <span>生日<font><%=result2.getString("birthday") %></font></span>
                     </div>
-                    <div class="article_box">
+                    <div class="article_box col-md-9">
                         <div class="info_box">
                             <div>
                                 <span class="art_num">
