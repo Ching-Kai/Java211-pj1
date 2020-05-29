@@ -23,7 +23,7 @@
                 <%
 				
                 //會員session
-        		Object acc_ID = session.getAttribute("account_ID").toString();
+        		Object acc_ID = session.getAttribute("account");
 				String sql="";
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
@@ -60,7 +60,7 @@
 						
 						//計算回覆數量
 						try {
-							result2 = stm2.executeQuery("select * from article_reply where arti_id="+result.getString("arti_id"));
+							result2 = stm2.executeQuery("select * from article_reply inner join user using(user_id) where arti_id="+result.getString("arti_id"));
 							
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -101,7 +101,7 @@
                         </div>
                         <div class="other_fun"><a title="跳轉至進階發文" href="arti_id=<%=result.getString("arti_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a>
                         	<% 
-                        		String user_id= result.getString("user_id");
+                        		String user_id= result.getString("account");
                         		if(user_id.equals(acc_ID)) {
                         			%>
                         			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改文章</a><a href="">刪除文章</a></span></span>
@@ -125,7 +125,7 @@
                 	//request.getSession().removeValue("arti"+arti_id);
 	                if(se==null){
 	                	n = Integer.valueOf(view_sum);
-	                	sql ="update article set view_num = "+(n+=1);
+	                	sql ="update article set view_num = "+(n+=1) +" where arti_id="+arti_id;
 	                	PreparedStatement upstm = con.prepareStatement(sql);
 	                	upstm.executeUpdate();
 	                	upstm.close();
@@ -182,7 +182,7 @@
                         <div class="other_fun"><a title="跳轉至進階發文" href="<%=result2.getString("reply_id") %>"><i class="fas fa-comment-alt"></i> 回覆</a>
                         <% 
                         		String user_id = result2.getString("user_id");
-                        		if(user_id.equals(acc_ID)) {
+                        		if(user_id.equals((String)acc_ID)) {
                         			%>
                         			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改回覆</a><a href="">刪除回覆</a></span></span>
                         			<%
