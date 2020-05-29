@@ -84,11 +84,13 @@
 
 				<div class="search-box">
 					<div id="sb-search" class="sb-search">
-						<form>
+						<form action="article_lists.jsp" method="get">
 							<input class="sb-search-input" placeholder="Enter your search term..." type="search"
 								name="search" id="search">
-							<button class="sb-search-submit" type="submit" value="">
+							<input name="scout" type="hidden" value="1">
+							<button class="sb-search-submit" type="submit" value="" >
 								<i class="fa fa-search" aria-hidden="true"></i>
+								
 							</button>
 						</form>
 					</div>
