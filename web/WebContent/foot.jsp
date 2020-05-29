@@ -104,7 +104,7 @@ int count1 =0;
 
 			<a href="single.html"><img src="images/15.jpg" class="img-responsive" alt=""></a>
 			<a class="gos_btn gamsbtn" href="http://localhost:8080/web/article_list.jsp?board_id=<%=board_id%>"><%= board %></a>
-			<div class="comopasser-bottom" style="width:260px;height:280px">
+			<div class="comopasser-bottom" style="height:280px">
 				<h3><a href="http://localhost:8080/web/article_view.jsp?arti_id=<%= arti_id %>&board_id=<%=board_id%>"><%= title %> </a></h3>
 				<p><%= arti_txt %></p>
 				<div class="curtir">
