@@ -65,7 +65,8 @@
 				<h3><strong>會員註冊</strong>
 					<label1></label1>
                 </h3>
-                <form class="form-horizontal regis_form" name="useraddform" method='post' action='useradd.jsp'>  <div class="control-group">
+                <form class="form-horizontal regis_form" name="useraddform" method='post' action='useradd.jsp'> 
+                 <div class="control-group">
                     <label class="control-label" for="">帳　　號</label><input class="control" type="text" name="account" value="" placeholder="請設定8 到 16 字元,首字必須英文,英文需區分大小寫" required="required">
                 </div>
                 <div class="control-group">
