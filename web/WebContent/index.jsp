@@ -70,7 +70,7 @@
 							<h4><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=result.getString("title") %></a></h4>
 							<p><%=result.getString("arti_txt") %></p>
 							<span class="sort_t blue"><%=result.getString("board_name") %></span>
-							<span class="itac"><%=result.getString("username") %><i class="dot_"></i><i class="far fa-clock"></i> <%=result.getString("arti_update") %></span>
+							<span class="itac"><%=result.getString("username") %><i class="dot_"></i><i class="far fa-clock"></i> <%=result.getString("arti_date") %></span>
 						</div>
 						<div class="clearfix"> </div>
 						<a class="anabtn" href="single.html">Análise</a>
