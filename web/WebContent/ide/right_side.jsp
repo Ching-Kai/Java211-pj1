@@ -19,11 +19,14 @@
 	</div>
 	<div class="dicado-bottom">
 		<%
-			String sql="";
+			//取文章最新回覆
+			String sql="";			
 			sql = "select * from article a inner join board using(board_id) inner join ";
 			sql += "(select reply_update, reply_txt,reply_id, arti_id, user_id user_id_re ";
-			sql += "from article_reply group by arti_id order by reply_update desc) b ";
-			sql += "using(arti_id) left join user using(user_id) limit 5";
+			sql += "from article_reply group by reply_id order by reply_update desc) b ";
+			sql += "using(arti_id) left join user using(user_id) ";
+			sql += "group by arti_id order by b.reply_update DESC";
+			
 			result = stm.executeQuery(sql);
 			
         	Statement stm2 = con.createStatement();
