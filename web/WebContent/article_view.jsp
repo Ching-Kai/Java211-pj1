@@ -15,6 +15,7 @@
 <title>Insert title here</title>
 	<%@include file="head.jsp"%><!--CSS及JQ-->
 	<link href="css/style_page.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="js/fun.js"></script>
 </head>
 <body class="page article_in">
 	<jsp:include page="header.jsp" /><!--頁頭-->
@@ -108,8 +109,8 @@
                         		if(acc_id.equals((String)acc_ID) && user_id.equals((String)acc_user_id)) {
                         			%>
                         			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele">
-                        				<a href="article_edit.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>">修改文章</a>
-                        				<a href="">刪除文章</a></span>
+                        				<a href="article_edit.jsp?arti_id=${param.arti_id}&board_id=<%=board_id %>">修改文章</a>
+                        				<a href="javascript:void(0);" onclick="cofirm_mes('確定要刪除嗎?', 'MemberArticleDelete?arti_id=${param.arti_id}&board_id=<%=board_id %>')">刪除文章</a></span>
                         			</span>
                         			<%
                         		}
@@ -194,14 +195,12 @@
                         			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯
                         				<span class="edit_sele">
                         					<a href="article_editply.jsp?arti_id=<%=arti_id %>&reply_id=<%=reply_id %>&board_id=<%=board_id %>">修改回覆</a>
-                        					<a href="">刪除回覆</a>
+                        					<a href="javascript:void(0);" onclick="cofirm_mes('確定要刪除嗎?', 'MemberArticleReplyDelete?arti_id=${param.arti_id}&board_id=<%=board_id %>&reply_id=<%=reply_id %>')">刪除回覆</a></span>
                         				</span>
                         			</span>
                         			<%
                         		}
                         %>
-                        		<%=user_id %>
-                        		<%=acc_user_id %>
                         </div>
                     </div>
                     <div class="clearfix"> </div>

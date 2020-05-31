@@ -1,7 +1,7 @@
 
 	//跳出訊息+轉址
 	function msg(txt, path){
-		if(msg != null){
+		if(txt != null){
 			alert(txt);
 		}
 		//預設
