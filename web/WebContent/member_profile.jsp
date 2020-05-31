@@ -91,30 +91,38 @@
 				birthday = result.getString("birthday");
 	%>
 	
-		<h3><strong>修改會員資料</strong>
-					<label1></label1>
-                </h3>
-		<form  class="form-horizontal regis_form" name="useraddform" id="useraddform" method='get' action="http://localhost:8080/web/MemberUpdates">
+		<h3><strong>會員資料</strong></h3>
 		
-			
-			 	<div class="control-group">
-                    <label class="control-label" for="">密　　碼</label><input class="control" name="password" type="password" value=<%=password%> placeholder="請設定8 到 16 字元,首字必須英文,英文需區分大小寫" required="required">
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="">密碼確認</label><input class="control" name="password1" type="password" value="" placeholder="請再輸入一次密碼" required="required">
-                </div>
-				<div class="control-group">
-				<label class="control-label" for='user_name'>姓　　名</label><input class="control" type='text' name='username'
-					value='<%=username%>'></input>
-				</div>
+		<table style="line-height:60px ;width:80% ;  border-spacing:3px 5px;border-collapse:separate;" border="3"   >
+		
+		<tr>
+		<td align="center">暱稱:</td>
+		<td><%=username%></td>
+		</tr>
+		<tr>
+		<td align="center">帳號:</td>
+		<td ><%=account%></td>
+		</tr>
+		<tr>
+		<td align="center">密碼:</td>
+		<td><%=password%></td>
+		</tr>
+		<tr>
+		<td align="center">信箱:</td>
+		<td><%=email%></td>
+		</tr>
+		<tr>
+		<td align="center">性別:</td>
+		<td><%=gender%></td>
+		</tr>
+		<tr>
+		<td align="center">生日:</td>
+		<td><%=birthday%></td>
+		</tr>
+		
+		</table>
 
-				<div class="control-group">
-				<label class="control-label" for='email'>信　　箱 </label><input  class="control" name="email" type="email"
-					value="<%=email%>">
-				</div>
-				<input type='hidden' name='user_id' value='<%=user_id%>'> 
-				<input type='hidden' name='act' value='update'>
-				<div>
+
 				<%
 					out.println(line);
 						}
@@ -124,14 +132,16 @@
 						stm.close();
 						con.close();
 				%>
-
-			</div>
-			<button class="btn_sty1" type='submit' onclick="return check_Data()">確定修改</button>
+			<br/>
+			<br/>
+			<button class="btn_sty1" type='submit' onclick="javascript:location.href='http://localhost:8080/web/modify_P.jsp'">修改</button>
 
 			<button class="btn_sty1 btn_sty_red" type='button' name='act'
 				value='select' onclick="location.href='modify_P.jsp'">取消</button>
 			<input type='hidden' name='user_id' value='<%=user_id%>'> <input
 				type='hidden' name='act' value='update'>
+			</div>
+		
 		</form>
 	</div>
 		</div>

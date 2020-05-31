@@ -75,10 +75,15 @@
 	 out.print(session.getAttribute("username"));	
 	 session.getAttribute("account_ID");	
  %>
- 		---已登入</div>
+ 		---已登入	
+ 		</div>
+ 		
  		<div style="display:inline; float:right"class="login">
 		<a href="logout.jsp"><i class="fas fa-user-plus"></i>登出</a>
 		</div>		
+		<div style="display:inline; float:right"class="login">
+		<a href="member_profile.jsp"><i class="fas fa-user-plus"></i>資料</a>
+		</div>	
  <%}%>
 
 
