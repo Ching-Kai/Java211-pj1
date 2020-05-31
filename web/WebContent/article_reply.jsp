@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*"%>
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*, member.MemberOnly"%>
 <%
 	Connection_sql conn = new Connection_sql();
 	conn.connection();
@@ -28,6 +28,16 @@
 				Object acc_user_id = session.getAttribute("user_id");
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
+				
+				//檢查會員
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/MemberOnly");
+				dispatcher.include(request, response);
+				boolean memeber = (boolean)request.getAttribute("membercheck");
+				if(memeber){
+				%>
+					<script>msg('請登入會員', 'article_view.jsp?arti_id=<%=arti_id %>&board_id=<%=board_id%>')</script>
+				<%
+				}
 
 				String sql = "";
 				//回覆參數
@@ -38,8 +48,8 @@
 				String act = "";
 				String title = request.getParameter("title");
 				
-				//文章
-				//String arti_txt = request.getParameter("article_cont");
+				//回覆文章
+				String reply_cont = request.getParameter("reply_cont");
 				act = request.getParameter("dir");
 
 				if (reply_id == null) {
@@ -48,18 +58,29 @@
 				if (act == null) {
 					act = "";
 				}
+				if (reply_cont == null) {
+					reply_cont = "";
+				}
 				//update
+				out.print(1);
 				if (act.equals("re_insert") && acc_user_id != null) {
-					
-					String reply_cont = request.getParameter("reply_cont");
-					sql = "insert into article_reply(reply_txt, reply_update, arti_id, user_id) ";
-					sql +="values("+reply_cont+", current_timestamp, "+arti_id+", "+acc_user_id+")";
-					PreparedStatement upstm = con.prepareStatement(sql);
-					upstm.executeUpdate();
-					upstm.close();
+
+					out.print(2);
+					String up_msg="";
+					try{
+						sql = "insert into article_reply(reply_txt, reply_update, arti_id, user_id) ";
+						sql +="values('"+reply_cont+"', current_timestamp, "+arti_id+", "+acc_user_id+")";
+						PreparedStatement upstm = con.prepareStatement(sql);
+						upstm.executeUpdate();
+						upstm.close();
+						up_msg="回覆成功!!";
+						} catch (Exception e) {
+						e.printStackTrace();
+						up_msg="回覆失敗!!";
+					}
 			%>
 			<script>
-							msg('回覆成功!!', 'article_view.jsp?arti_id=<%=arti_id%>&board_id=<%=board_id%>');
+							msg('<%=up_msg %>', 'article_view.jsp?arti_id=<%=arti_id%>&board_id=<%=board_id%>');
 			</script>
 			<%
 				}
@@ -109,7 +130,7 @@
 				<div class="article_storey">
 					<div class="article_box col-md-12">
 						<form id="myform" name="myform" method="get"
-							action="article_edit.jsp">
+							action="article_reply.jsp">
 							<div class="info_box">
 								<strong><%=result.getString("title")%></strong>
 								<div>
@@ -133,16 +154,15 @@
 											while (result2.next()) {
 												user_name = result2.getString("username");
 								%>
-								<textarea name="reply_cont">"引用 <%=user_name%>:
-<%=result2.getString("reply_txt")%>"
-
-								</textarea>
+								<p>"引用 <%=user_name%>:<%=result2.getString("reply_txt")%>"</p>
+								<textarea name="reply_cont">"引用 <%=user_name%>:<%=result2.getString("reply_txt")%>"</textarea>
 								<%
 											}
 										} else {
 										//回覆樓主
 								%>
-								<textarea name="article_cont"><%=result.getString("arti_txt")%></textarea>
+								<p>"回覆樓主"</p>
+								<textarea name="reply_cont"></textarea>
 								<%
 										}
 								%>
@@ -150,9 +170,8 @@
 							</div>
 							<div class="other_fun">
 								<a class="edit_but_sub" title="我要回覆" href="javascript:void(0);"
-									onclick="cofirm_mesf('myform', '確定回覆嗎?')"><i class="fas fa-reply"></i></i> 我要回覆</a> <a title="取消"
-									href="arti_id=<%=result.getString("arti_id")%>"><i
-									class="fas fa-backspace"></i> 取消回覆</a>
+									onclick="cofirm_mesf('myform', '確定回覆嗎?')"><i class="fas fa-reply"></i> 我要回覆</a> <a title="取消"
+									href="arti_id=<%=result.getString("arti_id")%>"><i class="fas fa-backspace"></i> 取消回覆</a>
 							</div>
 							<input type="hidden" name="arti_id" value="<%=arti_id%>" /> 
 							<input type="hidden" name="board_id" value="<%=board_id%>" />
@@ -176,7 +195,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	</div>
 	<jsp:include page="foot.jsp" /><!--頁尾 -->
 </body>
 </html>

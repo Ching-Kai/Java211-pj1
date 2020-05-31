@@ -25,16 +25,11 @@
 				//會員session
 				Object acc_ID = session.getAttribute("account");
 				Object acc_user_id = session.getAttribute("user_id");
-				
-				String board_id = request.getParameter("board_id");
+			
 				String arti_id = request.getParameter("arti_id");
+				String reply_id = request.getParameter("reply_id");
+				String board_id = request.getParameter("board_id");
 				String sql = "";
-				
-				//更新參數
-				String act = "";
-				String title = request.getParameter("title");
-				String arti_txt = request.getParameter("article_cont");
-				act=request.getParameter("dir");				
 
 				//檢查會員
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/MemberOnly");
@@ -45,13 +40,18 @@
 					<script>msg('請登入會員', 'article_view.jsp?arti_id=<%=arti_id %>&board_id=<%=board_id%>')</script>
 				<%
 				}
+				
+				//更新參數
+				String act = "";
+				String reply_cont = request.getParameter("reply_cont");
+				act=request.getParameter("dir");
 
 				if(act==null){
 					act="";
 				}
 				//update
 				if(act.equals("update")){
-					sql = "update article set title='"+title+"', arti_txt='"+arti_txt+"' where arti_id = "+arti_id+" and board_id = "+board_id;
+					sql = "update article_reply set reply_txt='"+reply_cont+"' where reply_id = "+reply_id+" and arti_id = "+arti_id;
 					PreparedStatement upstm = con.prepareStatement(sql);
 					upstm.executeUpdate();
 					upstm.close();
@@ -62,11 +62,14 @@
 					<%
 				}
 				out.print(act);
-				//文章內容
+				//回覆內容
 				try {
-					sql = "select * from (select * from article where board_id=" + board_id + " ";
-					sql += "and arti_id=" + arti_id + ") article inner join board using(board_ID) ";
-					sql += "inner join user using(user_id) group by arti_id";
+					sql = "select * from (select * from article_reply ";
+					sql += "where reply_id="+reply_id+" and arti_id="+arti_id+") article_reply ";
+					sql += "inner join user using(user_id) ";
+					sql += "inner join article using(arti_id) ";
+					sql += "inner join board using(board_id) ";
+					sql +="group by reply_id";
 					result = stm.executeQuery(sql);
 
 				} catch (Exception e) {
@@ -105,11 +108,11 @@
 						view_sum = result.getString("view_num");
 				%>
 				<div class="article_storey">
-				<h3>修改 <strong>文章內容</strong></h3>
+				<h3>修改 <strong>回覆內容</strong></h3>
 					<div class="article_box col-md-12">
-						<form id="myform" name="myform" method="get" action="article_edit.jsp">
+						<form id="myform" name="myform" method="get" action="article_editply.jsp">
 							<div class="info_box">
-								<strong><input class="title" name="title" value="<%=result.getString("title")%>" /></strong>
+								<strong><%=result.getString("title")%></strong>
 								<div>
 									<span class="art_s"><a class="sort" href=""><%=result.getString("board_name")%></a></span>
 									<span class="art_num"> <font><%=result.getString("arti_date")%></font>
@@ -121,7 +124,7 @@
 								</div>
 							</div>
 							<div class="article_txt">
-								<textarea name="article_cont"><%=result.getString("arti_txt")%></textarea>
+								<textarea name="reply_cont"><%=result.getString("reply_txt")%></textarea>
 								
 							</div>
 							<div class="other_fun">
@@ -131,6 +134,7 @@
 								<span class="edit_but" title="修改文章"><i class="far fa-trash-alt"></i> 刪除文章</span>
 							</div>
 							<input type="hidden" name="arti_id" value="<%=arti_id%>" />
+							<input type="hidden" name="reply_id" value="<%=reply_id%>" />
 							<input type="hidden" name="board_id" value="<%=board_id%>" />
 							<input type="hidden" name="user_id" value="<%=result.getString("user_id")%>" />
 							<input type="hidden" name="dir" value="update" />
@@ -152,7 +156,6 @@
 		</div>
 	</div>
 	<div class="clearfix"></div>
-	</div>
 	<jsp:include page="foot.jsp" /><!--頁尾 -->
 </body>
 </html>

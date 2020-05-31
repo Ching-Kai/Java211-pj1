@@ -7,9 +7,13 @@
 	Connection con = conn.con;
 	Statement stm = conn.stm;
 	ResultSet result = conn.result;
+	
+	//新增文章
+	String board_id = request.getParameter("board_id");
 %>
 
 <div class="col-md-3  redes">
+	<a href="article_add.jsp?board_id=${param.board_id}">發表文章</a>
 	<h3>
 		最新 <strong>文章回覆</strong>
 		<label3></label3>

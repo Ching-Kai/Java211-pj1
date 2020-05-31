@@ -24,6 +24,7 @@
 				
                 //會員session
         		Object acc_ID = session.getAttribute("account");
+				Object acc_user_id = session.getAttribute("user_id");
 				String sql="";
 				String board_id = request.getParameter("board_id");
 				String arti_id = request.getParameter("arti_id");
@@ -102,8 +103,9 @@
                         <div class="other_fun">
                         	<a title="跳轉至進階發文" href="article_reply.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>"><i class="fas fa-comment-alt"></i> 回覆</a>
                         	<% 
-                        		String user_id= result.getString("account");
-                        		if(user_id.equals(acc_ID)) {
+                        		String acc_id= result.getString("account");
+                    			String user_id= result.getString("user_id");
+                        		if(acc_id.equals((String)acc_ID) && user_id.equals((String)acc_user_id)) {
                         			%>
                         			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele">
                         				<a href="article_edit.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>">修改文章</a>
@@ -186,12 +188,20 @@
                         <div class="other_fun"><a title="跳轉至進階發文" href='article_reply.jsp?arti_id=<%=arti_id %>&board_id=<%=board_id %>&reply_id=<%=result2.getString("reply_id") %>&user_id=<%=result2.getString("user_id") %>'><i class="fas fa-comment-alt"></i> 回覆</a>
                         <% 
                         		String user_id = result2.getString("user_id");
-                        		if(user_id.equals((String)acc_ID)) {
-                        			%>
-                        			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯<span class="edit_sele"><a href="">修改回覆</a><a href="">刪除回覆</a></span></span>
+                				String reply_id = result2.getString("reply_id");
+                        		if(user_id.equals((String)acc_user_id)) {
+                        			%>                        			
+                        			<span class="edit_but" title="修改文章"><i class="fas fa-pen"></i> 編輯
+                        				<span class="edit_sele">
+                        					<a href="article_editply.jsp?arti_id=<%=arti_id %>&reply_id=<%=reply_id %>&board_id=<%=board_id %>">修改回覆</a>
+                        					<a href="">刪除回覆</a>
+                        				</span>
+                        			</span>
                         			<%
                         		}
                         %>
+                        		<%=user_id %>
+                        		<%=acc_user_id %>
                         </div>
                     </div>
                     <div class="clearfix"> </div>
@@ -216,7 +226,6 @@
 				</div>
 			</div>
 			<div class="clearfix"></div>
-		</div>
 	<jsp:include page="foot.jsp" /><!--頁尾 -->
 </body>
 </html>
