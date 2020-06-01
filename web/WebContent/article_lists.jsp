@@ -27,16 +27,16 @@
 				String scout = request.getParameter("scout");
 				String search = request.getParameter("search");
 				String board_id = request.getParameter("board_id");
-				System.out.print(scout);
+				//System.out.print(scout);
 				if(board_id == null)
 					board_id = "6";	//預設討論版搜尋id
 				if(search == null)
 					search = "";
 				try {
 					if (scout == null) {
-						result = stm.executeQuery("select * from (select * from article where board_id="+board_id+") article inner join board using(board_ID) inner join user using(user_id) group by arti_id order by arti_update desc");
+						result = stm.executeQuery("select * from (select * from article) article inner join board using(board_ID) inner join user using(user_id) group by arti_id order by arti_update desc");
 					} else {
-						result = stm.executeQuery("select * from (select * from article where board_id="+board_id+" and title like '%"+search+"%') article inner join board using(board_ID) inner join user using(user_id) group by arti_id order by arti_update desc");
+						result = stm.executeQuery("select * from (select * from article where title like '%"+search+"%') article inner join board using(board_ID) inner join user using(user_id) group by arti_id order by arti_update desc");
 				//result = stm.executeQuery("select * from article where title like '%" + search + "%' order by arti_update DESC");
 					}
 				} catch (Exception e) {

@@ -48,10 +48,12 @@
   left: 55%;
 }
 .article_search select {
+  display: none;
   border: 1px solid #ccc;
   padding: 0.6em;
 }
 .board_sort {
+  display: none;
   margin-bottom: 1em;
 }
 .board_sort ul {
@@ -77,6 +79,7 @@
 /*--page_index_button--*/
 .p_index {
     text-align: center;
+    display: none;
     margin-top: 30px;
 }
 .p_index span, .p_index li  {

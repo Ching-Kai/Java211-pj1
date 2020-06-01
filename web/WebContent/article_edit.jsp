@@ -128,7 +128,7 @@
 								<a class="edit_but_sub" title="修改完成" href="javascript:void(0);"
 								onclick="cofirm_mesf('myform', '確定修改嗎?')"><i class="fas fa-check"></i> 修改完成</a>
 								<a title="取消" href="arti_id=<%=result.getString("arti_id")%>"><i class="fas fa-backspace"></i> 取消修改</a>
-								<span class="edit_but" title="修改文章"><i class="far fa-trash-alt"></i> 刪除文章</span>
+								<span class="edit_but" title="修改文章" onclick="cofirm_mes('確定要刪除嗎?', 'MemberArticleDelete?arti_id=${param.arti_id}&board_id=<%=board_id %>')"><i class="far fa-trash-alt"></i> 刪除文章</span>
 							</div>
 							<input type="hidden" name="arti_id" value="<%=arti_id%>" />
 							<input type="hidden" name="board_id" value="<%=board_id%>" />

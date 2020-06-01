@@ -60,8 +60,8 @@
 					<div class="login_box">
 						<form name="" action="Usercheck.jsp" method="post">
 							<span class="login_title">使用者登入</span>
-							<div><label for="account">帳號</label><input name="account" value=""></div>
-							<div><label for="password">密碼</label><input name="password" value=""></div>
+							<div><label for="account">帳號</label><input type="text" name="account" value=""></div>
+							<div><label for="password">密碼</label><input type="password" name="password" value=""></div>
 							<div class="sign_btn"><a class="for_pw" href="Forgot.jsp#">忘記密碼</a><button type="submit">登入</button></div>
 						</form>
 					</div>
@@ -103,7 +103,6 @@
 			</div>
 			<!-- search-scripts -->
 			<script src="js/classie.js"></script>
-			<script src="js/uisearch.js"></script>
 			<script>
 				new UISearch(document.getElementById('sb-search'));
 			</script>

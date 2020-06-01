@@ -13,13 +13,13 @@
 %>
 
 <div class="col-md-3  redes">
-	<a href="article_add.jsp?board_id=${param.board_id}">發表文章</a>
+	<a class="new_artibtn" href="article_add.jsp?board_id=${param.board_id}">發表文章</a>
 	<h3>
 		最新 <strong>文章回覆</strong>
 		<label3></label3>
 	</h3>
 	<div class="dicado-top">
-		<h5>30 app para download</h5>
+		<h5>NEW ARTICLE REPLY</h5>
 	</div>
 	<div class="dicado-bottom">
 		<%

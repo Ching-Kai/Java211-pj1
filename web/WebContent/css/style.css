@@ -281,6 +281,19 @@ a:hover{
 .login > a:first-child {
   margin-right: 1em;
 }
+a.new_artibtn {
+  color: #fff;
+  text-align: center;
+  background: #10ad86;
+  display: block;
+  width: 100%;
+  padding: .8rem;
+  margin-bottom: .8rem;
+  border-radius: 5px;
+}
+.new_artibtn:hover {
+  background: #0ecc9c;
+}
 /*--*/
 .sb-search {
   /*width: 0%;*/
