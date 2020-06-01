@@ -22,6 +22,8 @@
 	<div class="indica">
 		<div class="container">
 			<%
+				response.setContentType("text/html;charset=utf-8");
+				request.setCharacterEncoding("utf-8");
 				//會員session
 				Object acc_ID = session.getAttribute("account");
 				Object acc_user_id = session.getAttribute("user_id");
@@ -61,7 +63,7 @@
 						</script>
 					<%
 				}
-				out.print(act);
+				//out.print(act);
 				//文章內容
 				try {
 					sql = "select * from (select * from article where board_id=" + board_id + " ";
@@ -107,7 +109,7 @@
 				<div class="article_storey">
 				<h3>修改 <strong>文章內容</strong></h3>
 					<div class="article_box col-md-12">
-						<form id="myform" name="myform" method="get" action="article_edit.jsp">
+						<form id="myform" name="myform" method="post" action="article_edit.jsp">
 							<div class="info_box">
 								<strong><input class="title" name="title" value="<%=result.getString("title")%>" /></strong>
 								<div>
@@ -127,7 +129,7 @@
 							<div class="other_fun">
 								<a class="edit_but_sub" title="修改完成" href="javascript:void(0);"
 								onclick="cofirm_mesf('myform', '確定修改嗎?')"><i class="fas fa-check"></i> 修改完成</a>
-								<a title="取消" href="arti_id=<%=result.getString("arti_id")%>"><i class="fas fa-backspace"></i> 取消修改</a>
+								<a title="取消" href="article_view.jsp?arti_id=${param.arti_id}&board_id=<%=board_id %>"><i class="fas fa-backspace"></i> 取消修改</a>
 								<span class="edit_but" title="修改文章" onclick="cofirm_mes('確定要刪除嗎?', 'MemberArticleDelete?arti_id=${param.arti_id}&board_id=<%=board_id %>')"><i class="far fa-trash-alt"></i> 刪除文章</span>
 							</div>
 							<input type="hidden" name="arti_id" value="<%=arti_id%>" />

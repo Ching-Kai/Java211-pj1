@@ -25,11 +25,16 @@
 			location.href=str;
 		}
 	};	
-	
+
 	//送該表單
 	function cofirm_mesf(myform, mes){
 		var form = document.getElementById(myform);
 		if(confirm(mes)){
 			form.submit();
 		}
+	};
+	//返回上一頁
+	function backpage(){
+		alert(225);
+		window.history.back();
 	};

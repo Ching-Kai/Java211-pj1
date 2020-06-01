@@ -71,13 +71,14 @@
 						
 						count = new Search_count().count(result2);
 						view_sum = result.getString("view_num");
+						
 
 				%>
                 <div class="article_storey">
                     <div class="author_box col-md-3">
                         <div class="head_img"><img src="images/author/img_h.jpeg" title="talkabc123的大頭照" /></div>
                         <span class="auth_num">樓主</span>
-                        <a class="author" href="?user_id=<%=result.getString("user_id") %>"><%=result.getString("account") %></a>
+                        <a class="author" href="javascript: void(0)"><%=result.getString("account") %></a>
                         <span>暱稱<font><%=result.getString("username") %></font></span>
                         <span>性別<font><%=gender %></font></span>
                         <span>生日<font><%=result.getString("birthday") %></font></span>

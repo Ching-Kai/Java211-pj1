@@ -17,11 +17,13 @@
 <link href="css/style_page.css" rel="stylesheet" type="text/css" media="all" />
 <script type="text/javascript" src="js/fun.js"></script>
 </head>
-<body class="page article_in article_reply">
+<body class="page article_in article_reply article_add">
 	<jsp:include page="header.jsp" /><!--頁頭-->
 	<div class="indica">
 		<div class="container">
 			<%
+				response.setContentType("text/html;charset=utf-8");
+				request.setCharacterEncoding("utf-8");
 				//會員session
 				Object acc_ID = session.getAttribute("account");
 				Object acc_user_id = session.getAttribute("user_id");
@@ -94,12 +96,12 @@
 				<div class="article_storey">
 				<h3>新增<strong>討論版文章</strong></h3>
 					<div class="article_box col-md-12">
-						<form id="myform" name="myform" method="get" action="article_add.jsp">
+						<form id="myform" name="myform" method="post" action="article_add.jsp">
 							<div class="info_box">
 								<strong><input class="title" name="title" value="" /></strong>
 							</div>
 							<div class="article_txt">
-								<div>討論版分類：
+								<div class="board_sele">討論版分類：
 									<select name="board_id">
 										<option value="0">請選擇</option>
 									<%	
@@ -125,7 +127,7 @@
 							<div class="other_fun">
 								<a class="edit_but_sub" title="我要發佈" href="javascript:void(0);"
 								onclick="cofirm_mesf('myform', '確定發佈嗎?')"><i class="fas fa-check"></i> 我要發佈</a>
-								<a title="取消" href="arti_id="><i class="fas fa-backspace"></i> 取消發佈</a>
+								<a title="取消" href="javascript:history.go(-1);"><i class="fas fa-backspace"></i> 取消發佈</a>
 							</div>
 							<input type="hidden" name="dir" value="insert" />
 						</form>

@@ -23,6 +23,9 @@
 	<div class="indica">
 		<div class="container">
 			<%
+
+				response.setContentType("text/html;charset=utf-8");
+				request.setCharacterEncoding("utf-8");
 				//會員session
 				Object acc_ID = session.getAttribute("account");
 				Object acc_user_id = session.getAttribute("user_id");
@@ -62,10 +65,8 @@
 					reply_cont = "";
 				}
 				//update
-				out.print(1);
 				if (act.equals("re_insert") && acc_user_id != null) {
 
-					out.print(2);
 					String up_msg="";
 					try{
 						sql = "insert into article_reply(reply_txt, reply_update, arti_id, user_id) ";
@@ -84,7 +85,7 @@
 			</script>
 			<%
 				}
-				out.print(act);
+				//out.print(act);
 				//文章內容
 				try {
 					sql = "select * from (select * from article where board_id=" + board_id + " ";
@@ -129,7 +130,7 @@
 				%>
 				<div class="article_storey">
 					<div class="article_box col-md-12">
-						<form id="myform" name="myform" method="get"
+						<form id="myform" name="myform" method="post"
 							action="article_reply.jsp">
 							<div class="info_box">
 								<strong><%=result.getString("title")%></strong>

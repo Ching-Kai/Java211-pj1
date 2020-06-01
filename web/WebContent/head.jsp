@@ -4,8 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
-
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet"> 
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
 	<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 	<link href="css/fontawesome.css" rel="stylesheet">

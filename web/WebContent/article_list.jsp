@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*"%>
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*, article.*"%>
 <%
 	Connection_sql conn = new Connection_sql();
 	conn.connection();
@@ -87,15 +87,18 @@
 					stm2.close();
 					
 					while(result.next()){
-						
+
+						//擷取部分內容，如果文字長度小於擷取長度就顯示全部
+						String title = new TextCut().txtBack(result.getString("title"), 50);
+						String arti_txt = new TextCut().txtBack(result.getString("arti_txt"), 150);
 				%>
 					<div class="posta-1">
 						<div class="posta-left">
 							<a href="single.html"><img src="images/7.jpg" class="img-responsive" alt=""></a>
 						</div>
 						<div class="posta-right">
-							<h4><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>"><%=result.getString("title") %></a></h4>
-							<p><%=result.getString("arti_txt") %></p>
+							<h4><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=board_id %>"><%=title %></a></h4>
+							<p><%=arti_txt %></p>
 
 							<%
 

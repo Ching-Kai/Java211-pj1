@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*"%>
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*, article.*"%>
 <%
 	Connection_sql conn = new Connection_sql();
 	conn.connection();
@@ -53,10 +53,11 @@
 				result2 = stm2.executeQuery(sql);
 
 				while(result2.next()){
+					String title = new TextCut().txtBack(result.getString("title"), 40);
 		%>
 		<div class="dicado-1">
 			<h6>
-				<a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=result.getString("title")%></a>
+				<a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=title%></a>
 			</h6>
 			<span class="itac">最新回覆 : <%=result2.getString("username_re")%><br />
 			<i class="far fa-clock"></i> <%=result.getString("reply_update")%><i

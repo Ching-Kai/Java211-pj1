@@ -5,7 +5,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 --*/
 *{  
 	outline: none;
-  font-family: 'Helvetica Neue',Helvetica,Arial,STHeiti,'Microsoft JhengHei','微軟正黑體',sans-serif;
+  font-family: 'Nunito Sans', 'Helvetica Neue',Helvetica,Arial,STHeiti,'Microsoft JhengHei','微軟正黑體',sans-serif;
   text-decoration: none;
 }
 h4, h5, h6,
@@ -283,16 +283,17 @@ a:hover{
 }
 a.new_artibtn {
   color: #fff;
+  font-size: 1.2rem;
   text-align: center;
-  background: #10ad86;
+  background: #ff3a3a;
   display: block;
   width: 100%;
   padding: .8rem;
-  margin-bottom: .8rem;
+  margin-bottom: 1.5rem;
   border-radius: 5px;
 }
 .new_artibtn:hover {
-  background: #0ecc9c;
+  background: #d40000;
 }
 /*--*/
 .sb-search {
@@ -720,7 +721,7 @@ label2 {
 .dicado-1 h6 a:hover{
 	color:#ff7212;
 }
-span.sort_t {
+.sort_t {
   color: #fff;
   font-size: 12px;
   display: inline-block;
@@ -728,17 +729,32 @@ span.sort_t {
   margin-right: .5em;
   border-radius: 3px;
 }
-span.sort_t.org {
+.sort_t:hover {
+  color: #fff;
+}
+.sort_t.org {
   background: #eeae00;
 }
-span.sort_t.blue {
+.sort_t.org:hover {
+  background: #d19900;
+}
+.sort_t.blue {
   background: #1870f5;
 }
-span.sort_t.red {
+.sort_t.blue:hover {
+  background: #0b53be;
+}
+.sort_t.red {
   background: #db4a3f;
 }
-span.sort_t.green {
+.sort_t.red:hover {
+  background: #aa2218;
+}
+.sort_t.green {
   background: #12cc5a;
+}
+.sort_t.green:hover {
+  background: #0a9640;
 }
 
 span.itac {

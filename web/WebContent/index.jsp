@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"
-	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*"%>
+	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count, java.util.Date, java.io.*, java.text.*, article.*"%>
 	<%
 		Connection_sql conn = new Connection_sql();
 		conn.connection();
@@ -38,12 +38,13 @@
 					int i=0;
 					while(result.next()){
 						i++;
+						String title = new TextCut().txtBack(result.getString("title"), 40);
 
 				%>
 					<div class="ultimas-top">
 						<span class="ultimas-num"><%="0"+i %></span>
-						<span class="sort_t blue"><%=result.getString("board_name") %></span>
-						<h5><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=result.getString("title") %></a></h5>
+						<a class="sort_t blue" href="article_list.jsp?board_id=<%=result.getString("board_id") %>"><%=result.getString("board_name") %></a>
+						<h5><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=title %></a></h5>
 						<span class="itac">樓主 : <%=result.getString("username") %><br /><i class="far fa-clock"></i> <%=result.getString("arti_date") %></span><br />
 						<div class="clearfix"> </div>
 					</div>
@@ -62,14 +63,16 @@
 					result = stm.executeQuery("select * from article inner join board using(board_ID) inner join user using(user_id) group by arti_id order by arti_date desc limit 5");
 			
 					while(result.next()){
+						String title = new TextCut().txtBack(result.getString("title"), 40);
+						String arti_txt = new TextCut().txtBack(result.getString("arti_txt"), 100);
 						
 				%>
 				<div class="posta-top">
 					<div class="posta-1">
 						<div class="posta-right">
-							<h4><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=result.getString("title") %></a></h4>
-							<p><%=result.getString("arti_txt") %></p>
-							<span class="sort_t blue"><%=result.getString("board_name") %></span>
+							<h4><a href="article_view.jsp?arti_id=<%=result.getString("arti_id") %>&board_id=<%=result.getString("board_id") %>"><%=title %></a></h4>
+							<p><%=arti_txt %></p>
+							<a class="sort_t blue" href="article_list.jsp?board_id=<%=result.getString("board_id") %>"><%=result.getString("board_name") %></a>
 							<span class="itac"><%=result.getString("username") %><i class="dot_"></i><i class="far fa-clock"></i> <%=result.getString("arti_date") %></span>
 						</div>
 						<div class="clearfix"> </div>
