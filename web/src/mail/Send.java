@@ -81,6 +81,7 @@ public class Send extends HttpServlet {
 	            Message message = createMessage(from, to, subject, text);
 	            Transport.send(message);  
 	            response.getWriter().println("郵件傳送成功");
+	            session.invalidate();
 	            response.sendRedirect("sendfinish.html");
 	        } catch (MessagingException e) {
 	            throw new RuntimeException(e);
