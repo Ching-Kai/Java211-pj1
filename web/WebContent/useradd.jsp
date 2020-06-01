@@ -37,6 +37,11 @@ String email = request.getParameter("email");
 String birthday = request.getParameter("birthday");
 out.print(account + password + username + gender + email);
 String sql = "";
+
+String sql2="";
+sql2="select * from gossipboard.user where account='"+account+"';";
+
+
 sql += String.format("INSERT INTO gossipboard.user(account,password,username,gender,email,birthday) VALUE('%s','%s','%s','%s','%s','%s');",
 		account, password, username, gender, email,birthday);
 out.print(sql);
@@ -49,8 +54,12 @@ try {
 	String url = "jdbc:mysql://localhost:8888/gossipboard?serverTimezone=CST&useSSL=false";
 	String user = "root";
 	String password1 = "1234";
+	
 	Connection cnct = null;
 	Statement stmt = null;
+	
+		
+	
 	try {
 		cnct = DriverManager.getConnection(url, user, password1);
 	} catch (SQLException e) {
@@ -61,7 +70,13 @@ try {
 		stmt = cnct.createStatement();
 	} catch (SQLException e) {
 		out.print("Statment問題");
-	}
+	}ResultSet re=stmt.executeQuery(sql2);
+	if(re.next()){
+		%>
+		帳號已重複
+		<%
+		response.sendRedirect("adderror.html");
+	}else{
 
 	try {
 		stmt.executeUpdate(sql);
@@ -72,6 +87,7 @@ try {
 		response.sendRedirect("addfinish.html");
 	} catch (SQLException e) {
 		out.print("ResultSet問題");
+	}
 	}
 } catch (Exception e) {
 	out.print("整體問題");
