@@ -93,7 +93,7 @@
 	
 		<h3><strong>會員資料</strong></h3>
 		
-		<table style="line-height:60px ;width:80% ;  border-spacing:3px 5px;border-collapse:separate;" border="3"   >
+		<table style="line-height:60px ;width:80% ;border-color:#006bcf;  border-spacing:5px 3px;border-collapse:separate;" border="3"   >
 		
 		<tr>
 		<td align="center">暱稱:</td>
