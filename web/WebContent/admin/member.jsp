@@ -216,7 +216,7 @@
 							<button class="btn_sty1" type='submit' name='act' value='edit'>修改</button>
 							<button class="btn_sty1 btn_sty_red" type='button' name='' value=''
 								onclick="cofirm_mes('確定要刪除嗎?', 'member.jsp?act=delete_user&user_id=<%=user_id%>')">刪除</button>
-							<button class="btn_sty1 btn_sty_org" type='submit' name='act' value='reply'>查看回覆</button>
+<!-- 							<button class="btn_sty1 btn_sty_org" type='submit' name='act' value='reply'>查看回覆</button> -->
 							<input type='hidden' name='user_id' value='<%=user_id%>'>
 						</form></li>
 					<%
