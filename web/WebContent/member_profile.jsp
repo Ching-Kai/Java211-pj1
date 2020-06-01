@@ -134,9 +134,9 @@
 				%>
 			<br/>
 			<br/>
-			<button class="btn_sty1" type='submit' onclick="javascript:location.href='http://localhost:8080/web/modify_P.jsp'">修改</button>
+			<button style=" padding: .5em 1.5em; class="btn_sty1" type='submit' onclick="javascript:location.href='http://localhost:8080/web/modify_P.jsp'">修改</button>
 
-			<button class="btn_sty1 btn_sty_red" type='button' name='act'
+			<button style=" padding: .5em 1.5em;"" class="btn_sty1 btn_sty_red" type='button' name='act'
 				value='select' onclick="location.href='modify_P.jsp'">取消</button>
 			<input type='hidden' name='user_id' value='<%=user_id%>'> <input
 				type='hidden' name='act' value='update'>

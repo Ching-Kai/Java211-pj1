@@ -126,7 +126,7 @@
 				%>
 
 			</div>
-			<button class="btn_sty1" type='submit' onclick="return check_Data()">確定修改</button>
+			<button style="padding: .5em 1.5em;" class="btn_sty1" type='submit' onclick="return check_Data()">確定修改</button>
 
 			<button class="btn_sty1 btn_sty_red" type='button' name='act'
 				value='select' onclick="location.href='modify_P.jsp'">取消</button>

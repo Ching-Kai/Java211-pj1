@@ -75,7 +75,7 @@
 	 out.print(session.getAttribute("username"));	
 	 session.getAttribute("account_ID");	
  %>
- 		---已登入	
+ 		已登入	
  		</div>
  		
  		<div style="display:inline; float:right"class="login">
