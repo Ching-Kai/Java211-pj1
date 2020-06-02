@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" errorPage="error.jsp"
 	pageEncoding="UTF-8"
 	import="java.sql.*, java.util.*, sql_connection.Connection_sql"%>
 <%

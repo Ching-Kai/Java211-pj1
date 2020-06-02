@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" errorPage="error.jsp" 
     pageEncoding="UTF-8"
     import="java.io.IOException"
 	import="java.io.PrintWriter"

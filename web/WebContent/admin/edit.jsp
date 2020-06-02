@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" errorPage="error.jsp"
 	pageEncoding="UTF-8"
 	import="java.sql.*, java.util.*, sql_connection.Connection_sql, admin.other.Search_count"%>
 
@@ -23,7 +23,7 @@
 </head>
 <body>
 	<%
-		Connection_sql conn = new Connection_sql();
+	Connection_sql conn = new Connection_sql();
 	conn.connection();
 	Connection con = conn.con;
 	Statement stm = conn.stm;
